@@ -1,0 +1,239 @@
+import { Header } from "./Header";
+import { HeroSection } from "./HeroSection";
+import { ProblemSolutionSection } from "./ProblemSolutionSection";
+import { HowItWorksSection } from "./HowItWorksSection";
+import { BenefitsSection } from "./BenefitsSection";
+import { ComparisonSection } from "./ComparisonSection";
+import { PricingSection } from "./PricingSection";
+import { SocialProofSection } from "./SocialProofSection";
+import { TestimonialsSection } from "./TestimonialsSection";
+import { ConsultationBooking } from "./ConsultationBooking";
+import { FAQSection } from "./FAQSection";
+import { FinalCTASection } from "./FinalCTASection";
+import { Footer } from "./Footer";
+import { ShoppingCart } from "./ShoppingCart";
+import { CheckoutForm } from "./CheckoutForm";
+import { CheckoutSuccess } from "./CheckoutSuccess";
+import { HairAnalysisFlow } from "./HairAnalysisFlow";
+import { WhatsAppChat } from "./WhatsAppChat";
+import { AboutSection } from "./AboutSection";
+import { Toaster } from "./ui/sonner";
+import { toast } from "sonner";
+import { AnimatedBackground } from "./AnimatedBackground";
+import { CustomerDashboard } from "./CustomerDashboard";
+import type { Product } from "../App";
+
+interface AppContentProps {
+  cartItems: Product[];
+  setCartItems: React.Dispatch<React.SetStateAction<Product[]>>;
+  showCart: boolean;
+  setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
+  showCheckout: boolean;
+  setShowCheckout: React.Dispatch<React.SetStateAction<boolean>>;
+  showSuccess: boolean;
+  setShowSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  showAnalysisFlow: boolean;
+  setShowAnalysisFlow: React.Dispatch<React.SetStateAction<boolean>>;
+  showDashboard: boolean;
+  setShowDashboard: React.Dispatch<React.SetStateAction<boolean>>;
+  handleAddToCart: (product: Product) => void;
+  handleRemoveFromCart: (productId: string) => void;
+  handleUpdateQuantity: (productId: string, quantity: number) => void;
+  handleCheckout: () => void;
+  handleCheckoutComplete: (orderData: any) => void;
+  handleReset: () => void;
+  startAnalysisFlow: () => void;
+  scrollToPricing: () => void;
+}
+
+export function AppContent({
+  cartItems,
+  setCartItems,
+  showCart,
+  setShowCart,
+  showCheckout,
+  setShowCheckout,
+  showSuccess,
+  setShowSuccess,
+  showAnalysisFlow,
+  setShowAnalysisFlow,
+  showDashboard,
+  setShowDashboard,
+  handleAddToCart,
+  handleRemoveFromCart,
+  handleUpdateQuantity,
+  handleCheckout,
+  handleCheckoutComplete,
+  handleReset,
+  startAnalysisFlow,
+  scrollToPricing
+}: AppContentProps) {
+  // Show Customer Dashboard
+  if (showDashboard) {
+    return (
+      <div className="min-h-screen bg-background relative">
+        <AnimatedBackground />
+
+        <Header
+          cartCount={cartItems.length}
+          onCartClick={() => {
+            if (cartItems.length === 0) {
+              toast.error("Your cart is empty!");
+              return;
+            }
+            setShowCart(true);
+          }}
+        />
+
+        <CustomerDashboard />
+
+        <Toaster />
+      </div>
+    );
+  }
+
+  // Show Success Page
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen bg-background">
+        <CheckoutSuccess onReset={handleReset} />
+        <Toaster />
+      </div>
+    );
+  }
+
+  // Show Analysis Flow
+  if (showAnalysisFlow) {
+    return (
+      <div className="min-h-screen bg-background relative">
+        <AnimatedBackground />
+
+        <Header
+          cartCount={cartItems.length}
+          onCartClick={() => {
+            if (cartItems.length === 0) {
+              toast.error("Your cart is empty!");
+              return;
+            }
+            setShowCart(true);
+          }}
+        />
+
+        <main className="pb-12">
+          <HairAnalysisFlow
+            onComplete={(results) => {
+              // Convert analysis results to product and add to cart
+              const product: Product = {
+                id: "analysis-product-" + Date.now(),
+                name: results.bottleSize,
+                price: parseFloat(results.price.replace('€', '').replace('$', '')),
+                description: results.description,
+                stock: 5,
+                inStock: true,
+                imageUrl: "https://images.unsplash.com/photo-1739949154765-f2a23bdfa3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwaGFpciUyMGNhcmUlMjBwcm9kdWN0c3xlbnwxfHx8fDE3NjA4MDExMjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+                recommended: true
+              };
+              handleAddToCart(product);
+              setShowAnalysisFlow(false);
+              setShowCart(true);
+            }}
+          />
+        </main>
+
+        {showCart && (
+          <ShoppingCart
+            items={cartItems}
+            onRemoveItem={handleRemoveFromCart}
+            onUpdateQuantity={handleUpdateQuantity}
+            onClose={() => setShowCart(false)}
+            onCheckout={handleCheckout}
+          />
+        )}
+
+        <Toaster />
+      </div>
+    );
+  }
+
+  // Show Checkout Flow
+  if (showCheckout) {
+    return (
+      <div className="min-h-screen bg-background relative">
+        <AnimatedBackground />
+
+        <Header
+          cartCount={cartItems.length}
+          onCartClick={() => {
+            if (cartItems.length === 0) {
+              toast.error("Your cart is empty!");
+              return;
+            }
+            setShowCart(true);
+          }}
+        />
+
+        <main className="pb-12">
+          <CheckoutForm
+            items={cartItems.map(item => ({ ...item, quantity: 1 }))}
+            onBack={() => {
+              setShowCheckout(false);
+              setShowCart(true);
+            }}
+            onComplete={handleCheckoutComplete}
+          />
+        </main>
+
+        <Toaster />
+      </div>
+    );
+  }
+
+  // Main scrolling page
+  return (
+    <div className="min-h-screen bg-background relative">
+      <AnimatedBackground />
+
+      <Header
+        cartCount={cartItems.length}
+        onCartClick={() => {
+          if (cartItems.length === 0) {
+            toast.error("Your cart is empty!");
+            return;
+          }
+          setShowCart(true);
+        }}
+      />
+
+      <main>
+        <HeroSection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
+        <ProblemSolutionSection />
+        <HowItWorksSection />
+        <BenefitsSection />
+        <ComparisonSection />
+        <PricingSection onAddToCart={handleAddToCart} />
+        <SocialProofSection />
+        <TestimonialsSection />
+        <ConsultationBooking />
+        <FAQSection />
+        <FinalCTASection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
+        <AboutSection />
+        <Footer />
+      </main>
+
+      {/* WhatsApp Chat Widget - Replace with your actual WhatsApp number */}
+      <WhatsAppChat phoneNumber="31612345678" />
+
+      {showCart && (
+        <ShoppingCart
+          items={cartItems}
+          onRemoveItem={handleRemoveFromCart}
+          onUpdateQuantity={handleUpdateQuantity}
+          onClose={() => setShowCart(false)}
+          onCheckout={handleCheckout}
+        />
+      )}
+
+      <Toaster />
+    </div>
+  );
+}

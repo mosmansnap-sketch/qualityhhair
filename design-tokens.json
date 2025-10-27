@@ -1,0 +1,608 @@
+{
+  "metadata": {
+    "project": "Quality Hair - Organic Keratin Treatment E-commerce",
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-23",
+    "description": "Complete design system tokens for Quality Hair brand with earthy organic aesthetic"
+  },
+
+  "colors": {
+    "primary": {
+      "name": "Earthy Brown",
+      "light": {
+        "base": "#6b5d52",
+        "foreground": "#faf8f4",
+        "description": "Primary brand color - warm earthy brown"
+      },
+      "dark": {
+        "base": "oklch(0.985 0 0)",
+        "foreground": "oklch(0.205 0 0)"
+      }
+    },
+    "secondary": {
+      "name": "Sand Beige",
+      "light": {
+        "base": "#d4c5b0",
+        "foreground": "#3d3027",
+        "description": "Secondary brand color - soft sandy beige"
+      },
+      "dark": {
+        "base": "oklch(0.269 0 0)",
+        "foreground": "oklch(0.985 0 0)"
+      }
+    },
+    "accent": {
+      "name": "Warm Taupe",
+      "light": {
+        "base": "#b8a68f",
+        "foreground": "#3d3027",
+        "description": "Accent color - warm taupe"
+      },
+      "dark": {
+        "base": "oklch(0.269 0 0)",
+        "foreground": "oklch(0.985 0 0)"
+      }
+    },
+    "background": {
+      "light": {
+        "page": "#f5f1eb",
+        "card": "#faf8f4",
+        "popover": "#faf8f4",
+        "input": "#ebe3d8",
+        "description": "Warm cream background tones"
+      },
+      "dark": {
+        "page": "oklch(0.145 0 0)",
+        "card": "oklch(0.145 0 0)",
+        "popover": "oklch(0.145 0 0)",
+        "input": "oklch(0.269 0 0)"
+      }
+    },
+    "foreground": {
+      "light": {
+        "base": "#3d3027",
+        "muted": "#7a6d5f",
+        "description": "Dark brown text colors"
+      },
+      "dark": {
+        "base": "oklch(0.985 0 0)",
+        "muted": "oklch(0.708 0 0)"
+      }
+    },
+    "status": {
+      "success": {
+        "base": "#22c55e",
+        "light": "#dcfce7",
+        "dark": "#166534",
+        "description": "Green for success states"
+      },
+      "warning": {
+        "base": "#f59e0b",
+        "light": "#fef3c7",
+        "dark": "#92400e",
+        "amber": {
+          "50": "#fffbeb",
+          "400": "#fbbf24"
+        },
+        "description": "Amber/Orange for warnings"
+      },
+      "error": {
+        "base": "#c55a4a",
+        "foreground": "#faf8f4",
+        "light": "#fee2e2",
+        "dark": "#991b1b",
+        "description": "Red for errors and destructive actions"
+      },
+      "info": {
+        "base": "#3b82f6",
+        "light": "#dbeafe",
+        "dark": "#1e40af",
+        "description": "Blue for informational states"
+      },
+      "verified": {
+        "base": "#eab308",
+        "foreground": "#000000",
+        "description": "Yellow/Gold for verified badges"
+      }
+    },
+    "neutrals": {
+      "muted": {
+        "light": "#e8dfd4",
+        "foreground": "#7a6d5f"
+      },
+      "border": {
+        "light": "rgba(107, 93, 82, 0.15)",
+        "dark": "oklch(0.269 0 0)"
+      },
+      "switch": {
+        "light": "#d4c5b0"
+      }
+    },
+    "charts": {
+      "chart1": {
+        "light": "#8b7355",
+        "dark": "oklch(0.488 0.243 264.376)"
+      },
+      "chart2": {
+        "light": "#a89680",
+        "dark": "oklch(0.696 0.17 162.48)"
+      },
+      "chart3": {
+        "light": "#6b5d52",
+        "dark": "oklch(0.769 0.188 70.08)"
+      },
+      "chart4": {
+        "light": "#d4c5b0",
+        "dark": "oklch(0.627 0.265 303.9)"
+      },
+      "chart5": {
+        "light": "#b8a68f",
+        "dark": "oklch(0.645 0.246 16.439)"
+      }
+    },
+    "sidebar": {
+      "light": {
+        "background": "#faf8f4",
+        "foreground": "#3d3027",
+        "primary": "#6b5d52",
+        "primaryForeground": "#faf8f4",
+        "accent": "#e8dfd4",
+        "accentForeground": "#3d3027",
+        "border": "#d4c5b0",
+        "ring": "#b8a68f"
+      },
+      "dark": {
+        "background": "oklch(0.205 0 0)",
+        "foreground": "oklch(0.985 0 0)",
+        "primary": "oklch(0.488 0.243 264.376)",
+        "primaryForeground": "oklch(0.985 0 0)",
+        "accent": "oklch(0.269 0 0)",
+        "accentForeground": "oklch(0.985 0 0)",
+        "border": "oklch(0.269 0 0)",
+        "ring": "oklch(0.439 0 0)"
+      }
+    },
+    "special": {
+      "ring": {
+        "light": "#b8a68f",
+        "opacity": "50%",
+        "description": "Focus ring color"
+      },
+      "input": {
+        "light": "transparent"
+      }
+    },
+    "opacityVariants": {
+      "description": "Common opacity values used throughout the design",
+      "values": {
+        "10": "0.1",
+        "20": "0.2",
+        "30": "0.3",
+        "40": "0.4",
+        "50": "0.5",
+        "90": "0.9"
+      }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "sans": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+      "description": "Default system font stack for optimal performance and native feel"
+    },
+    "baseFontSize": "16px",
+    "fontWeights": {
+      "normal": 400,
+      "medium": 500,
+      "bold": 700
+    },
+    "headings": {
+      "h1": {
+        "fontSize": "3rem",
+        "tailwindClass": "text-5xl",
+        "fontWeight": 500,
+        "lineHeight": 1.2,
+        "letterSpacing": "normal",
+        "description": "Main page titles"
+      },
+      "h2": {
+        "fontSize": "2.25rem",
+        "tailwindClass": "text-4xl",
+        "fontWeight": 700,
+        "lineHeight": 1.3,
+        "letterSpacing": "0.02em",
+        "textTransform": "uppercase",
+        "description": "Section headers - bold and uppercase for emphasis"
+      },
+      "h3": {
+        "fontSize": "1.875rem",
+        "tailwindClass": "text-3xl",
+        "fontWeight": 500,
+        "lineHeight": 1.4,
+        "letterSpacing": "normal",
+        "description": "Subsection headers"
+      },
+      "h4": {
+        "fontSize": "1.5rem",
+        "tailwindClass": "text-2xl",
+        "fontWeight": 500,
+        "lineHeight": 1.4,
+        "letterSpacing": "normal",
+        "description": "Card titles and feature headers"
+      },
+      "h5": {
+        "fontSize": "1.25rem",
+        "tailwindClass": "text-xl",
+        "fontWeight": 500,
+        "lineHeight": 1.5,
+        "letterSpacing": "normal",
+        "description": "Small section headers"
+      },
+      "h6": {
+        "fontSize": "1.125rem",
+        "tailwindClass": "text-lg",
+        "fontWeight": 500,
+        "lineHeight": 1.5,
+        "letterSpacing": "normal",
+        "description": "Smallest headers"
+      }
+    },
+    "body": {
+      "base": {
+        "fontSize": "1rem",
+        "tailwindClass": "text-base",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "description": "Standard paragraph text"
+      },
+      "large": {
+        "fontSize": "1.125rem",
+        "tailwindClass": "text-lg",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "description": "Lead paragraphs and emphasis text"
+      },
+      "small": {
+        "fontSize": "0.875rem",
+        "tailwindClass": "text-sm",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "description": "Helper text and captions"
+      },
+      "tiny": {
+        "fontSize": "0.75rem",
+        "tailwindClass": "text-xs",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "description": "Fine print and labels"
+      }
+    },
+    "interactive": {
+      "button": {
+        "fontSize": "1rem",
+        "tailwindClass": "text-base",
+        "fontWeight": 500,
+        "lineHeight": 1.5,
+        "description": "Button text styling"
+      },
+      "link": {
+        "fontSize": "1rem",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "textDecoration": "underline",
+        "description": "Standard link styling"
+      },
+      "label": {
+        "fontSize": "1rem",
+        "tailwindClass": "text-base",
+        "fontWeight": 500,
+        "lineHeight": 1.5,
+        "description": "Form labels"
+      },
+      "input": {
+        "fontSize": "1rem",
+        "tailwindClass": "text-base",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "description": "Input field text"
+      }
+    }
+  },
+
+  "spacing": {
+    "description": "Spacing scale based on 4px increments (0.25rem)",
+    "scale": {
+      "0": "0px",
+      "0.5": "0.125rem",
+      "1": "0.25rem",
+      "1.5": "0.375rem",
+      "2": "0.5rem",
+      "2.5": "0.625rem",
+      "3": "0.75rem",
+      "3.5": "0.875rem",
+      "4": "1rem",
+      "5": "1.25rem",
+      "6": "1.5rem",
+      "7": "1.75rem",
+      "8": "2rem",
+      "9": "2.25rem",
+      "10": "2.5rem",
+      "11": "2.75rem",
+      "12": "3rem",
+      "14": "3.5rem",
+      "16": "4rem",
+      "20": "5rem",
+      "24": "6rem",
+      "28": "7rem",
+      "32": "8rem",
+      "36": "9rem",
+      "40": "10rem",
+      "44": "11rem",
+      "48": "12rem",
+      "52": "13rem",
+      "56": "14rem",
+      "60": "15rem",
+      "64": "16rem",
+      "72": "18rem",
+      "80": "20rem",
+      "96": "24rem"
+    },
+    "commonPatterns": {
+      "sectionPadding": {
+        "mobile": "4rem 1rem",
+        "desktop": "6rem 2rem",
+        "description": "Standard section padding"
+      },
+      "containerMaxWidth": {
+        "default": "80rem",
+        "description": "Max width for main content containers"
+      },
+      "cardPadding": {
+        "small": "1rem",
+        "medium": "1.5rem",
+        "large": "2rem"
+      },
+      "buttonPadding": {
+        "small": "0.5rem 1rem",
+        "medium": "0.75rem 1.5rem",
+        "large": "1rem 2rem"
+      },
+      "gap": {
+        "tight": "0.5rem",
+        "normal": "1rem",
+        "relaxed": "1.5rem",
+        "loose": "2rem"
+      }
+    }
+  },
+
+  "borderRadius": {
+    "description": "Border radius values for rounded corners",
+    "base": "0.625rem",
+    "scale": {
+      "none": "0px",
+      "sm": "0.225rem",
+      "md": "0.425rem",
+      "lg": "0.625rem",
+      "xl": "1.025rem",
+      "2xl": "1rem",
+      "3xl": "1.5rem",
+      "full": "9999px"
+    },
+    "common": {
+      "button": "0.625rem",
+      "card": "0.625rem",
+      "input": "0.625rem",
+      "badge": "0.625rem",
+      "dialog": "0.625rem"
+    }
+  },
+
+  "borders": {
+    "width": {
+      "default": "1px",
+      "0": "0px",
+      "2": "2px",
+      "4": "4px",
+      "8": "8px"
+    },
+    "style": {
+      "default": "solid",
+      "dashed": "dashed",
+      "dotted": "dotted"
+    },
+    "colors": {
+      "default": "rgba(107, 93, 82, 0.15)",
+      "input": "rgba(107, 93, 82, 0.15)",
+      "focus": "#b8a68f"
+    }
+  },
+
+  "shadows": {
+    "xs": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    "sm": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)",
+    "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
+    "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)",
+    "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+    "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "inner": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
+    "none": "none",
+    "custom": {
+      "cardHover": "0 20px 40px rgba(0, 0, 0, 0.15)",
+      "description": "Custom shadow for card hover effects"
+    }
+  },
+
+  "effects": {
+    "blur": {
+      "sm": "4px",
+      "md": "8px",
+      "lg": "16px",
+      "xl": "24px",
+      "glassmorphism": "10px"
+    },
+    "opacity": {
+      "disabled": "0.5",
+      "muted": "0.7",
+      "ghost": "0.1"
+    },
+    "transitions": {
+      "default": {
+        "duration": "200ms",
+        "timing": "cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "fast": {
+        "duration": "150ms",
+        "timing": "cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "slow": {
+        "duration": "300ms",
+        "timing": "cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "cardHover": {
+        "duration": "300ms",
+        "timing": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "properties": "all"
+      }
+    }
+  },
+
+  "animations": {
+    "pulseSlow": {
+      "name": "pulse-slow",
+      "duration": "4s",
+      "timing": "ease-in-out",
+      "iteration": "infinite",
+      "keyframes": {
+        "0%": { "opacity": 0.3 },
+        "50%": { "opacity": 0.5 },
+        "100%": { "opacity": 0.3 }
+      }
+    },
+    "float": {
+      "name": "float",
+      "duration": "3s",
+      "timing": "ease-in-out",
+      "iteration": "infinite",
+      "keyframes": {
+        "0%": { "transform": "translateY(0px)" },
+        "50%": { "transform": "translateY(-20px)" },
+        "100%": { "transform": "translateY(0px)" }
+      }
+    },
+    "shimmer": {
+      "name": "shimmer",
+      "duration": "2s",
+      "timing": "linear",
+      "iteration": "infinite",
+      "keyframes": {
+        "0%": { "backgroundPosition": "-1000px 0" },
+        "100%": { "backgroundPosition": "1000px 0" }
+      }
+    }
+  },
+
+  "breakpoints": {
+    "xs": {
+      "value": "475px",
+      "description": "Extra small devices"
+    },
+    "sm": {
+      "value": "640px",
+      "description": "Small devices (mobile landscape)"
+    },
+    "md": {
+      "value": "768px",
+      "description": "Medium devices (tablets)"
+    },
+    "lg": {
+      "value": "1024px",
+      "description": "Large devices (small laptops)"
+    },
+    "xl": {
+      "value": "1280px",
+      "description": "Extra large devices (desktops)"
+    },
+    "2xl": {
+      "value": "1536px",
+      "description": "2X large devices (large desktops)"
+    }
+  },
+
+  "zIndex": {
+    "description": "Z-index layers for stacking context",
+    "scale": {
+      "base": 0,
+      "dropdown": 1000,
+      "sticky": 1020,
+      "fixed": 1030,
+      "modalBackdrop": 1040,
+      "modal": 1050,
+      "popover": 1060,
+      "tooltip": 1070,
+      "whatsappButton": 40,
+      "header": 50
+    }
+  },
+
+  "gradients": {
+    "primary": {
+      "value": "linear-gradient(135deg, #6b5d52, #b8a68f)",
+      "description": "Primary to accent gradient"
+    },
+    "warm": {
+      "value": "linear-gradient(to right, #6b5d52, #b8a68f)",
+      "description": "Warm earthy gradient"
+    },
+    "shimmer": {
+      "value": "linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)",
+      "description": "Shimmer effect gradient"
+    },
+    "glass": {
+      "value": "rgba(255, 255, 255, 0.1)",
+      "backdrop": "blur(10px)",
+      "description": "Glassmorphism effect"
+    }
+  },
+
+  "focusRing": {
+    "width": "3px",
+    "color": "#b8a68f",
+    "opacity": "50%",
+    "style": "ring-ring/50 ring-[3px]",
+    "description": "Consistent focus ring styling for accessibility"
+  },
+
+  "containers": {
+    "maxWidth": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1536px",
+      "content": "80rem"
+    }
+  },
+
+  "pricing": {
+    "currency": "EUR",
+    "symbol": "€",
+    "range": {
+      "min": 165,
+      "max": 375
+    },
+    "consultation": 10
+  },
+
+  "brandValues": {
+    "aesthetic": "Earthy organic premium",
+    "targetAudience": "Social media clientele seeking organic hair treatments",
+    "keyFeatures": [
+      "100% Organic Certified",
+      "Safe for Pregnancy",
+      "No Heat Damage",
+      "Maintains Natural Curl Patterns"
+    ],
+    "colorPhilosophy": "Warm, natural earth tones that evoke organic authenticity and premium quality"
+  }
+}

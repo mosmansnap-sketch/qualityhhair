@@ -1,0 +1,27 @@
+{
+  "name": "Quality Hair - Organic Keratin Treatment",
+  "short_name": "Quality Hair",
+  "description": "Premium organic keratin protein treatment for beautiful, healthy hair",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f1eb",
+  "theme_color": "#6b5d52",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "lifestyle", "beauty"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
