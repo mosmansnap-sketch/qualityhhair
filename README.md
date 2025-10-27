@@ -1,4 +1,4 @@
-# QualityHair.com - Premium Keratin Treatment E-commerce
+# QualityHHair.com - Premium Keratin Treatment E-commerce
 
 Premium organic keratin treatment e-commerce website built with React, TypeScript, and Vite.
 
