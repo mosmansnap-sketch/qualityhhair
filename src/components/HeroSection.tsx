@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import qualityHairLogo from "../../QH Logo v2.png";
+import qualityHairLogo from "/images/logo/QH Logo v2.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,12 +20,12 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
   const ctaRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1508204152195-1ce799200f89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXJseSUyMG5hdHVyYWwlMjBoYWlyJTIwd29tYW58ZW58MXx8fHwxNzYwODAxMTIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1707161256491-e41eb204b571?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuYXR1cmFsJTIwYWZybyUyMGhhaXJ8ZW58MXx8fHwxNzYwODAxMTIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1712641966810-611ff1503c6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXJseSUyMGhhaXIlMjB3b21hbnxlbnwxfHx8fDE3NjAyNzE1MzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1739949154765-f2a23bdfa3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwaGFpciUyMGNhcmUlMjBwcm9kdWN0c3xlbnwxfHx8fDE3NjA4MDExMjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "/images/hero/hero-1-optimized.webp",
+    "/images/hero/hero-2-optimized.webp",
+    "/images/hero/hero-3-optimized.webp"
   ];
 
   const trustIndicators = [
@@ -35,8 +35,45 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
     { icon: Check, text: "Lasts 3-6 Months" },
   ];
 
+  // Image preloading and loading state
+  useEffect(() => {
+    console.log('Starting hero image preloading...');
+    let loadedCount = 0;
+
+    const preloadImages = async () => {
+      const loadPromises = heroImages.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => {
+            console.log('Hero image loaded:', src);
+            loadedCount++;
+            resolve(src);
+          };
+          img.onerror = () => {
+            console.error('Hero image failed to load:', src);
+            reject(src);
+          };
+        });
+      });
+
+      try {
+        await Promise.all(loadPromises);
+        console.log('All hero images loaded successfully');
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error('Some hero images failed to load:', error);
+        setImagesLoaded(true); // Still show content even if some fail
+      }
+    };
+
+    preloadImages();
+  }, []);
+
   // GSAP Animations
   useEffect(() => {
+    if (!imagesLoaded) return; // Don't start animations until images load
+
     const ctx = gsap.context(() => {
       // Headline stagger animation
       if (headlineRef.current) {
@@ -149,12 +186,26 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
       {/* Animated gradient overlay with GSAP */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 animate-pulse-slow pointer-events-none z-10" />
 
+      {/* Loading placeholder */}
+      {!imagesLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 animate-pulse z-5">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-primary font-medium">Loading hero images...</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Image carousel backgrounds */}
       {heroImages.map((imageSrc, index) => (
         <div
           key={index}
           ref={(el) => (imageRefs.current[index] = el)}
-          className="absolute inset-0 bg-cover bg-center"
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+            imagesLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           style={{
             backgroundImage: `url(${imageSrc})`,
             opacity: index === 0 ? 1 : 0,

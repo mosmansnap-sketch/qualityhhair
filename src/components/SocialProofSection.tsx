@@ -87,13 +87,15 @@ export function SocialProofSection() {
       ease: 'power3.out',
     });
 
-    // Animate stats with counter
+    // Animate stats with counter - Fixed approach
     const statsObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Animate counters
-            gsap.to(counters, {
+            // Create animation targets
+            const animationTargets = { customers: 0, influencers: 0, views: 0 };
+
+            gsap.to(animationTargets, {
               customers: 50000,
               influencers: 127,
               views: 15000000,
@@ -102,9 +104,9 @@ export function SocialProofSection() {
               ease: 'power2.out',
               onUpdate: function() {
                 setCounters({
-                  customers: Math.floor(this.targets()[0].customers),
-                  influencers: Math.floor(this.targets()[0].influencers),
-                  views: Math.floor(this.targets()[0].views),
+                  customers: Math.floor(animationTargets.customers),
+                  influencers: Math.floor(animationTargets.influencers),
+                  views: Math.floor(animationTargets.views),
                 });
               },
             });
@@ -121,7 +123,7 @@ export function SocialProofSection() {
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
     };
   }, []);
 

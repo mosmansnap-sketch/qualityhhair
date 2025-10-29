@@ -5,7 +5,7 @@ import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import qualityHairLogo from "../../QH Logo v2.png";
+import qualityHairLogo from "/images/logo/QH Logo v2.png";
 
 interface HeaderProps {
   cartCount: number;
@@ -51,8 +51,11 @@ export function Header({ cartCount, onCartClick }: HeaderProps) {
   }, []);
 
   const scrollToSection = (href: string) => {
+    console.log('Scrolling to:', href);
     const element = document.querySelector(href);
+
     if (element) {
+      console.log('Element found:', element);
       const navHeight = 100;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - navHeight;
@@ -61,6 +64,26 @@ export function Header({ cartCount, onCartClick }: HeaderProps) {
         top: offsetPosition,
         behavior: "smooth"
       });
+      console.log('Scrolled successfully to:', href);
+    } else {
+      console.error('Element not found:', href);
+      // Fallback: try to find by ID without #
+      const fallbackElement = document.getElementById(href.replace('#', ''));
+      if (fallbackElement) {
+        console.log('Found element by ID:', href.replace('#', ''));
+        const navHeight = 100;
+        const elementPosition = fallbackElement.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - navHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      } else {
+        console.error('No element found for:', href);
+        // Last resort: scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
     setMobileMenuOpen(false);
   };
@@ -76,18 +99,29 @@ export function Header({ cartCount, onCartClick }: HeaderProps) {
         <div className="container flex h-20 md:h-24 items-center justify-between px-4 mx-auto max-w-7xl">
           {/* Logo */}
           <motion.button
-            onClick={() => scrollToSection("#hero")}
+            onClick={() => {
+              console.log('Logo clicked - going to home');
+              scrollToSection("#hero");
+            }}
             className="flex items-center gap-2 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
             <div ref={logoRef} className="relative">
-              <img 
-                src={qualityHairLogo} 
-                alt="Quality Hair" 
+              <img
+                src={qualityHairLogo}
+                alt="Quality Hair"
                 className="h-16 md:h-20 w-auto object-contain"
                 style={{
                   filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.4))',
+                }}
+                onError={(e) => {
+                  console.error('Logo failed to load:', qualityHairLogo);
+                  e.currentTarget.style.display = 'none';
+                  const fallback = document.createElement('div');
+                  fallback.textContent = 'Quality Hair';
+                  fallback.className = 'text-2xl font-bold text-primary';
+                  e.currentTarget.parentNode?.appendChild(fallback);
                 }}
               />
             </div>

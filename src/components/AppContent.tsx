@@ -17,6 +17,7 @@ import { CheckoutSuccess } from "./CheckoutSuccess";
 import { HairAnalysisFlow } from "./HairAnalysisFlow";
 import { WhatsAppChat } from "./WhatsAppChat";
 import { AboutSection } from "./AboutSection";
+import { Button } from "./ui/button";
 import { Toaster } from "./ui/sonner";
 import { toast } from "sonner";
 import { AnimatedBackground } from "./AnimatedBackground";
@@ -48,17 +49,14 @@ interface AppContentProps {
 
 export function AppContent({
   cartItems,
-  setCartItems,
   showCart,
   setShowCart,
   showCheckout,
   setShowCheckout,
   showSuccess,
-  setShowSuccess,
   showAnalysisFlow,
   setShowAnalysisFlow,
   showDashboard,
-  setShowDashboard,
   handleAddToCart,
   handleRemoveFromCart,
   handleUpdateQuantity,
@@ -104,6 +102,7 @@ export function AppContent({
 
   // Show Analysis Flow
   if (showAnalysisFlow) {
+    console.log('Rendering Analysis Flow - showAnalysisFlow:', showAnalysisFlow);
     return (
       <div className="min-h-screen bg-background relative">
         <AnimatedBackground />
@@ -120,35 +119,39 @@ export function AppContent({
         />
 
         <main className="pb-12">
-          <HairAnalysisFlow
-            onComplete={(results) => {
-              // Convert analysis results to product and add to cart
-              const product: Product = {
-                id: "analysis-product-" + Date.now(),
-                name: results.bottleSize,
-                price: parseFloat(results.price.replace('€', '').replace('$', '')),
-                description: results.description,
-                stock: 5,
-                inStock: true,
-                imageUrl: "https://images.unsplash.com/photo-1739949154765-f2a23bdfa3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwaGFpciUyMGNhcmUlMjBwcm9kdWN0c3xlbnwxfHx8fDE3NjA4MDExMjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-                recommended: true
-              };
-              handleAddToCart(product);
-              setShowAnalysisFlow(false);
-              setShowCart(true);
-            }}
-          />
-        </main>
+          <div className="container mx-auto px-4 py-8">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                console.log('Exit analysis flow clicked');
+                setShowAnalysisFlow(false);
+              }}
+              className="mb-4"
+            >
+              ← Back to Home
+            </Button>
 
-        {showCart && (
-          <ShoppingCart
-            items={cartItems}
-            onRemoveItem={handleRemoveFromCart}
-            onUpdateQuantity={handleUpdateQuantity}
-            onClose={() => setShowCart(false)}
-            onCheckout={handleCheckout}
-          />
-        )}
+            <HairAnalysisFlow
+              onComplete={(results) => {
+                console.log('Analysis completed:', results);
+                // Convert analysis results to product and add to cart
+                const product: Product = {
+                  id: "analysis-product-" + Date.now(),
+                  name: results.bottleSize,
+                  price: parseFloat(results.price.replace('€', '').replace('$', '')),
+                  description: results.description,
+                  stock: 5,
+                  inStock: true,
+                  imageUrl: "https://images.unsplash.com/photo-1739949154765-f2a23bdfa3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwaGFpciUyMGNhcmUlMjBwcm9kdWN0c3xlbnwxfHx8fDE3NjA4MDExMjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+                  recommended: true
+                };
+                handleAddToCart(product);
+                setShowAnalysisFlow(false);
+                setShowCart(true);
+              }}
+            />
+          </div>
+        </main>
 
         <Toaster />
       </div>
