@@ -67,7 +67,7 @@ const influencers: Influencer[] = [
 export function SocialProofSection() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [counters, setCounters] = useState({ customers: 50000, influencers: 127, views: 15000000 });
+  const [counters, setCounters] = useState({ customers: 0, influencers: 0, views: 0 });
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -98,6 +98,7 @@ export function SocialProofSection() {
               influencers: 127,
               views: 15000000,
               duration: 2.5,
+              delay: 0.3,
               ease: 'power2.out',
               onUpdate: function() {
                 setCounters({
@@ -170,20 +171,20 @@ export function SocialProofSection() {
 
       {/* Stats Section - Exact specifications */}
       <div className="stats-section grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        <Card className="p-6 text-center bg-card border border-border rounded-xl">
-          <Users className="h-12 w-12 mx-auto mb-4 text-primary" />
-          <div className="text-4xl font-bold mb-2">{formatNumber(counters.customers)}+</div>
-          <p className="text-muted-foreground text-sm">{t('social.stats.customers')}</p>
+        <Card className="p-6 text-center bg-card border border-border rounded-xl transform transition-all duration-300 hover:scale-105">
+          <Users className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
+          <div className="text-4xl font-bold mb-2 text-primary">{formatNumber(counters.customers)}+</div>
+          <p className="text-muted-foreground text-sm font-medium">{t('social.stats.customers')}</p>
         </Card>
-        <Card className="p-6 text-center bg-card border border-border rounded-xl">
-          <TrendingUp className="h-12 w-12 mx-auto mb-4 text-accent" />
-          <div className="text-4xl font-bold mb-2">{formatNumber(counters.influencers)}+</div>
-          <p className="text-muted-foreground text-sm">{t('social.stats.influencers')}</p>
+        <Card className="p-6 text-center bg-card border border-border rounded-xl transform transition-all duration-300 hover:scale-105">
+          <TrendingUp className="h-12 w-12 mx-auto mb-4 text-accent animate-pulse" />
+          <div className="text-4xl font-bold mb-2 text-accent">{formatNumber(counters.influencers)}+</div>
+          <p className="text-muted-foreground text-sm font-medium">{t('social.stats.influencers')}</p>
         </Card>
-        <Card className="p-6 text-center bg-card border border-border rounded-xl">
-          <Eye className="h-12 w-12 mx-auto mb-4 text-primary" />
-          <div className="text-4xl font-bold mb-2">{formatNumber(counters.views)}+</div>
-          <p className="text-muted-foreground text-sm">{t('social.stats.views')}</p>
+        <Card className="p-6 text-center bg-card border border-border rounded-xl transform transition-all duration-300 hover:scale-105">
+          <Eye className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
+          <div className="text-4xl font-bold mb-2 text-primary">{formatNumber(counters.views)}+</div>
+          <p className="text-muted-foreground text-sm font-medium">{t('social.stats.views')}</p>
         </Card>
       </div>
 

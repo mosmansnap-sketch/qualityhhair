@@ -152,7 +152,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Enter your full name"
-                      className="bg-white border-2 focus:border-primary/50"
+                      className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                     />
                   </div>
 
@@ -168,7 +168,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+31 6 12345678"
-                      className="bg-white border-2 focus:border-primary/50"
+                      className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -185,7 +185,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="your.email@example.com"
-                    className="bg-white border-2 focus:border-primary/50"
+                    className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                   />
                 </div>
               </div>
@@ -203,7 +203,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       onValueChange={(value) => setFormData({ ...formData, hairType: value })}
                       required
                     >
-                      <SelectTrigger className="bg-white border-2">
+                      <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
                         <SelectValue placeholder="Select your hair type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -229,7 +229,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       onValueChange={(value) => setFormData({ ...formData, currentHairConcerns: value })}
                       required
                     >
-                      <SelectTrigger className="bg-white border-2">
+                      <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
                         <SelectValue placeholder="Select main concern" />
                       </SelectTrigger>
                       <SelectContent>
@@ -265,7 +265,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       value={formData.preferredDate}
                       onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
                       min={new Date().toISOString().split('T')[0]}
-                      className="bg-white border-2 focus:border-primary/50"
+                      className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                     />
                   </div>
 
@@ -276,7 +276,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       onValueChange={(value) => setFormData({ ...formData, preferredTime: value })}
                       required
                     >
-                      <SelectTrigger className="bg-white border-2">
+                      <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
                         <SelectValue placeholder="Select time slot" />
                       </SelectTrigger>
                       <SelectContent>
@@ -304,7 +304,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                   onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
                   placeholder="Any specific questions or concerns you'd like to discuss?"
                   rows={4}
-                  className="bg-white border-2 focus:border-primary/50"
+                  className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                 />
               </div>
 

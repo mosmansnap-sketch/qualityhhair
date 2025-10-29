@@ -93,20 +93,20 @@ export function ProblemSolutionSection() {
             </div>
           </motion.div>
 
-          {/* Our Solution - Exact specifications with bg-primary/5 */}
+          {/* Our Solution - Exact specifications with green gradient */}
           <motion.div
             ref={solutionRef}
-            className="bg-[rgba(107,93,82,0.05)] border border-[rgba(107,93,82,0.15)] rounded-2xl p-8 shadow-lg"
+            className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8 shadow-lg"
             initial={{ y: 60, opacity: 0, scale: 0.95 }}
             whileInView={{ y: 0, opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-12 w-12 rounded-full bg-[rgba(107,93,82,0.1)] flex items-center justify-center">
-                <Sparkles className="h-6 w-6 text-[#6b5d52]" />
+              <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+                <Sparkles className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="text-[#3d3027]">
+              <h3 className="text-green-800">
                 A New Beginning for Your Hair
               </h3>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Droplets, Sparkles, Clock } from "lucide-react";
 import gsap from "gsap";
@@ -8,6 +8,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function HowItWorksSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+
+  const handleStepClick = (stepNumber: number) => {
+    setActiveStep(activeStep === stepNumber ? null : stepNumber);
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -53,7 +58,7 @@ export function HowItWorksSection() {
             Easy application process - no salon required
           </p>
           <p className="text-sm text-muted-foreground italic">
-            Hover over each step for detailed guidance
+            Click on each step for detailed guidance (tap on mobile)
           </p>
         </motion.div>
 
@@ -61,38 +66,51 @@ export function HowItWorksSection() {
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {/* Step 1: Apply */}
           <motion.div
-            className="group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card"
+            className={`group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card cursor-pointer ${
+              activeStep === 1 ? 'ring-2 ring-primary' : ''
+            }`}
             initial={{ opacity: 1 }}
             whileHover={{ y: -8 }}
             transition={{ type: "spring", stiffness: 300 }}
+            onClick={() => handleStepClick(1)}
+            style={{
+              backgroundImage: activeStep === 1 ? 'url(/images/Apply.png)' : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
           >
             {/* Step Number Badge - Original Position */}
             <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg z-20">
               <span className="text-primary-foreground">1</span>
             </div>
 
-            {/* Default Content */}
-            <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
+            {/* Default Content - Always visible on mobile, hides on desktop hover */}
+            <div className={`relative z-10 transition-all duration-300 ${
+              activeStep === 1 ? 'opacity-0 md:group-hover:opacity-0' : 'opacity-100'
+            }`}>
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Sparkles className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4">Apply</h3>
+              <h3 className="mb-4 text-xl font-bold">Apply</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Wash with shampoo only • Dry completely • Apply section by section
               </p>
             </div>
 
-            {/* Hover Content */}
-            <div className="absolute inset-0 bg-gradient-to-br from-card to-secondary/20 rounded-3xl p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-auto">
+            {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
+            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+              activeStep === 1 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+            }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">1</span>
               </div>
-              <h4 className="text-center mb-3">Apply</h4>
-              <p className="text-sm text-primary text-center italic mb-5 px-2">
+              <h4 className="text-center mb-3 font-bold text-lg">Apply</h4>
+              <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
                 You are able to book 30 min video call for guiding or read the script for applying
               </p>
-              
-              <div className="space-y-3 text-sm text-foreground/80">
+
+              <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
                 <div className="flex items-start gap-2">
                   <span className="text-primary mt-0.5">•</span>
                   <span>Have a towel ready</span>
@@ -180,38 +198,51 @@ export function HowItWorksSection() {
 
           {/* Step 2: Rinse */}
           <motion.div
-            className="group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card"
+            className={`group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card cursor-pointer ${
+              activeStep === 2 ? 'ring-2 ring-primary' : ''
+            }`}
             initial={{ opacity: 1 }}
             whileHover={{ y: -8 }}
             transition={{ type: "spring", stiffness: 300 }}
+            onClick={() => handleStepClick(2)}
+            style={{
+              backgroundImage: activeStep === 2 ? 'url(/images/Rinse.png)' : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
           >
             {/* Step Number Badge - Original Position */}
             <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg z-20">
               <span className="text-primary-foreground">2</span>
             </div>
 
-            {/* Default Content */}
-            <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
+            {/* Default Content - Always visible on mobile, hides on desktop hover */}
+            <div className={`relative z-10 transition-all duration-300 ${
+              activeStep === 2 ? 'opacity-0 md:group-hover:opacity-0' : 'opacity-100'
+            }`}>
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Droplets className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4">Rinse</h3>
+              <h3 className="mb-4 text-xl font-bold">Rinse</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Pure water only • No shampoo or conditioner • Let air dry naturally
               </p>
             </div>
 
-            {/* Hover Content */}
-            <div className="absolute inset-0 bg-gradient-to-br from-card to-secondary/20 rounded-3xl p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-auto">
+            {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
+            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+              activeStep === 2 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+            }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">2</span>
               </div>
-              <h4 className="text-center mb-3">Rinse</h4>
-              <p className="text-sm text-primary text-center italic mb-5 px-2">
+              <h4 className="text-center mb-3 font-bold text-lg">Rinse</h4>
+              <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
                 Rinse it only with water take a full bath. Make sure it's 100% out of the hair
               </p>
-              
-              <div className="space-y-3 text-sm text-foreground/80">
+
+              <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
                 <div className="flex items-start gap-2">
                   <span className="text-primary mt-0.5">•</span>
                   <span>Rinse it only with water take a full bath. Make sure it's 100% out of the hair</span>
@@ -234,38 +265,45 @@ export function HowItWorksSection() {
 
           {/* Step 3: Maintain */}
           <motion.div
-            className="group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card"
+            className={`group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible step-card cursor-pointer ${
+              activeStep === 3 ? 'ring-2 ring-primary' : ''
+            }`}
             initial={{ opacity: 1 }}
             whileHover={{ y: -8 }}
             transition={{ type: "spring", stiffness: 300 }}
+            onClick={() => handleStepClick(3)}
           >
             {/* Step Number Badge - Original Position */}
             <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg z-20">
               <span className="text-primary-foreground">3</span>
             </div>
 
-            {/* Default Content */}
-            <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
+            {/* Default Content - Always visible on mobile, hides on desktop hover */}
+            <div className={`relative z-10 transition-all duration-300 ${
+              activeStep === 3 ? 'opacity-0 md:group-hover:opacity-0' : 'opacity-100'
+            }`}>
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Clock className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4">Maintain</h3>
+              <h3 className="mb-4 text-xl font-bold">Maintain</h3>
               <p className="text-muted-foreground leading-relaxed">
                 First wash after 4-7 days (mask only) • Use sulfate-free products • Enjoy healthier hair for months
               </p>
             </div>
 
-            {/* Hover Content */}
-            <div className="absolute inset-0 bg-gradient-to-br from-card to-secondary/20 rounded-3xl p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-auto">
+            {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
+            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+              activeStep === 3 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+            }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">3</span>
               </div>
-              <h4 className="text-center mb-3">Maintain</h4>
-              <p className="text-sm text-primary text-center italic mb-5 px-2">
+              <h4 className="text-center mb-3 font-bold text-lg">Maintain</h4>
+              <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
                 After 4-7 days you are able to wash your hair again but only with a hairmask
               </p>
-              
-              <div className="space-y-3 text-sm text-foreground/80">
+
+              <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
                 <div className="flex items-start gap-2">
                   <span className="text-primary mt-0.5">•</span>
                   <span>After 4-7 days you are able to wash your hair again but only with a hairmask</span>
