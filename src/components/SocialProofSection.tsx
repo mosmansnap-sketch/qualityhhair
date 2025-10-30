@@ -8,8 +8,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
 
-gsap.registerPlugin(ScrollTrigger);
-
 interface Influencer {
   id: string;
   name: string;
@@ -70,6 +68,9 @@ export function SocialProofSection() {
   const [counters, setCounters] = useState({ customers: 0, influencers: 0, views: 0 });
 
   useEffect(() => {
+    // Register GSAP plugin
+    gsap.registerPlugin(ScrollTrigger);
+
     const section = sectionRef.current;
     if (!section) return;
 

@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 
-gsap.registerPlugin(ScrollTrigger);
 
 interface HeroPageProps {
   onGetStarted: () => void;
@@ -93,6 +92,7 @@ export function HeroPage({ onGetStarted }: HeroPageProps) {
   ];
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     // Initialize all images except the first one to be hidden
     imageRefs.current.forEach((img, index) => {
       if (img) {

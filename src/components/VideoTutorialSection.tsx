@@ -9,7 +9,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 
-gsap.registerPlugin(ScrollTrigger);
 
 interface VideoTutorial {
   id: string;
@@ -54,6 +53,7 @@ export function VideoTutorialSection() {
   ];
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const section = sectionRef.current;
     if (!section) return;
 

@@ -79,7 +79,6 @@ const testimonials = [
   }
 ];
 
-gsap.registerPlugin(ScrollTrigger);
 
 export function TestimonialsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -87,6 +86,7 @@ export function TestimonialsSection() {
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       const carousel = sectionRef.current?.querySelector('.testimonial-carousel');
       if (carousel) {

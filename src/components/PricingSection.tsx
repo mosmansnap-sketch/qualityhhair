@@ -8,7 +8,6 @@ import { Product } from '../App';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
 
 interface PricingTier {
   id: string;
@@ -28,6 +27,7 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
   const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       const pricingCards = cardsRef.current?.querySelectorAll('.pricing-card');
       if (pricingCards) {

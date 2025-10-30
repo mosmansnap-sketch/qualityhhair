@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deployment Test</title>
+</head>
+<body>
+    <h1>Testing GSAP Deployment</h1>
+    <p>Bundle should be: index-BvRc-jCt.js</p>
+    <p>Not: index-rqieqiK1.js (old bundle with GSAP errors)</p>
+    <button onclick="testBundle()">Check Current Bundle</button>
+    <pre id="result"></pre>
+    <script>
+        function testBundle() {
+            const scripts = document.getElementsByTagName('script');
+            let result = 'Scripts found:\\n';
+            for (let script of scripts) {
+                if (script.src) {
+                    result += script.src + '\\n';
+                }
+            }
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+</body>
+</html>

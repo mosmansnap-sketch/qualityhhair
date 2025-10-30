@@ -16,7 +16,6 @@ import { Sparkles, ArrowRight } from "lucide-react";
 // Figma asset import replaced - using placeholder
 const qualityHairLogo = "/placeholder-logo.png";
 
-gsap.registerPlugin(ScrollTrigger);
 
 interface EnhancedHeroPageProps {
   onGetStarted: () => void;
@@ -82,6 +81,7 @@ export function EnhancedHeroPage({ onGetStarted }: EnhancedHeroPageProps) {
   ];
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     // Initialize all images except the first one to be hidden
     imageRefs.current.forEach((img, index) => {
       if (img) {

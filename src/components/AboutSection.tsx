@@ -4,12 +4,12 @@ import { Heart, Sparkles, Target, Users } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       const storyCards = sectionRef.current?.querySelectorAll('.story-card');
       if (storyCards) {
