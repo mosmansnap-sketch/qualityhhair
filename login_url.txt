@@ -1,5 +1,0 @@
-Vercel CLI 48.6.0
-
-  Visit https://vercel.com/oauth/device?user_code=RQGR-JNJR
-  Press [ENTER] to open the browser
-Waiting for authentication...
