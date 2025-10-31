@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger } from "../utils/gsap-config";
 import qualityHairLogo from "/images/logo/QH Logo v2.png";
 
 interface HeroSectionProps {
@@ -137,9 +136,6 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
 
   // Handle image transitions with GSAP
   useEffect(() => {
-    // Register GSAP plugin
-    gsap.registerPlugin(ScrollTrigger);
-
     const currentImage = imageRefs.current[currentImageIndex];
     const prevIndex = currentImageIndex === 0 ? heroImages.length - 1 : currentImageIndex - 1;
     const prevImage = imageRefs.current[prevIndex];

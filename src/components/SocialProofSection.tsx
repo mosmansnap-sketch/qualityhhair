@@ -4,8 +4,7 @@ import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useLanguage } from '../contexts/LanguageContext';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger } from '../utils/gsap-config';
 import { motion } from 'framer-motion';
 
 interface Influencer {
@@ -68,9 +67,6 @@ export function SocialProofSection() {
   const [counters, setCounters] = useState({ customers: 0, influencers: 0, views: 0 });
 
   useEffect(() => {
-    // Register GSAP plugin
-    gsap.registerPlugin(ScrollTrigger);
-
     const section = sectionRef.current;
     if (!section) return;
 
