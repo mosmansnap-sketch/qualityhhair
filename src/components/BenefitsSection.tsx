@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Card } from './ui/card';
 import { motion } from 'framer-motion';
 import { Sparkles, Shield, TrendingUp, Flame, Heart, Droplets } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function BenefitsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
