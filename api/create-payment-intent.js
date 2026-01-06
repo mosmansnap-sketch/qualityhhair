@@ -1,16 +1,24 @@
-// This is a serverless function for Stripe payment intent creation
-// For production, replace with your actual backend API
+// Netlify serverless function for Stripe payment intent creation
+// Set STRIPE_SECRET_KEY in Netlify environment variables (Site Settings > Environment Variables)
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
-    // Replace with your actual Stripe secret key from environment variables
-    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_your_secret_key_here');
+  // Check if Stripe is configured
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('STRIPE_SECRET_KEY not configured');
+    return res.status(500).json({ 
+      error: 'Payment system not configured',
+      message: 'Please set STRIPE_SECRET_KEY in environment variables'
+    });
+  }
 
-    const { amount, currency = 'usd' } = req.body;
+  try {
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+    const { amount, currency = 'eur' } = req.body;
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ error: 'Invalid amount' });

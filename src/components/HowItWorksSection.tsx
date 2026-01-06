@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Droplets, Sparkles, Clock } from "lucide-react";
+import { openCalendlyPopup } from "../utils/calendly";
 
 export function HowItWorksSection() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -154,13 +155,19 @@ export function HowItWorksSection() {
                 </div>
               </div>
 
-              <div className="mt-5 pt-5 border-t border-border">
-                <button 
-                  className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg"
-                  onClick={() => window.open("https://calendly.com", "_blank")}
-                >
-                  Book 30-Min Video Guidance
-                </button>
+              <div className="mt-4 pt-4 border-t border-border/50 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Need help applying?{' '}
+                  <button 
+                    className="text-primary hover:underline font-medium"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openCalendlyPopup('videoGuidance');
+                    }}
+                  >
+                    Book a video guidance call
+                  </button>
+                </p>
               </div>
             </div>
           </motion.div>

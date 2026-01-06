@@ -21,8 +21,11 @@ interface CheckoutFormProps {
   onComplete: (orderData: OrderData) => void;
 }
 
-// Initialize Stripe (replace with your publishable key)
-const stripePromise = loadStripe('pk_test_your_publishable_key_here');
+// Initialize Stripe with environment variable
+// Set VITE_STRIPE_PUBLISHABLE_KEY in Netlify environment variables
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder'
+);
 
 interface OrderData {
   customerInfo: {

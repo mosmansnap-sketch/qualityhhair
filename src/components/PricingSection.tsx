@@ -7,6 +7,7 @@ import { Check, Euro, Phone } from 'lucide-react';
 import { Product } from '../App';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { openCalendlyPopup } from '../utils/calendly';
 
 
 interface PricingTier {
@@ -249,24 +250,59 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 rounded-2xl p-8 text-center max-w-2xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
-          <div className="flex justify-center mb-4">
-            <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center">
-              <Phone className="h-8 w-8 text-primary" />
+          <div className="bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 rounded-2xl p-8 text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center">
+                <Phone className="h-8 w-8 text-primary" />
+              </div>
             </div>
+            <h3 className="mb-4">Not Sure Which Size?</h3>
+            <p className="text-muted-foreground mb-6">
+              Book a 10-minute video consultation for €10. We'll assess your hair and recommend the perfect amount. If you purchase within 48 hours, we'll credit the €10 toward your order.
+            </p>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => openCalendlyPopup('quickConsultation')}
+            >
+              Book Consultation (€10)
+            </Button>
           </div>
-          <h3 className="mb-4">Not Sure Which Size?</h3>
-          <p className="text-muted-foreground mb-6">
-            Book a 10-minute video consultation for €10. We'll assess your hair and recommend the perfect amount. If you purchase within 48 hours, we'll credit the €10 toward your order.
-          </p>
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={() => window.open("https://calendly.com", "_blank")}
-          >
-            Book Consultation (€10)
-          </Button>
+
+          {/* Consultation Features */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Phone className="h-6 w-6 text-primary" />
+              </div>
+              <h4 className="font-semibold mb-2">30-Minute Session</h4>
+              <p className="text-sm text-muted-foreground">
+                Personal video call with our hair expert
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Check className="h-6 w-6 text-primary" />
+              </div>
+              <h4 className="font-semibold mb-2">Personalized Plan</h4>
+              <p className="text-sm text-muted-foreground">
+                Custom treatment recommendations for your hair
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Euro className="h-6 w-6 text-primary" />
+              </div>
+              <h4 className="font-semibold mb-2">Credit Toward Purchase</h4>
+              <p className="text-sm text-muted-foreground">
+                €10 consultation fee applied to your order
+              </p>
+            </Card>
+          </div>
         </motion.div>
       </div>
     </section>

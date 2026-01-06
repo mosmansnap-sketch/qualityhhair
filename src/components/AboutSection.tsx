@@ -1,39 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, Target, Users } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 
 export function AboutSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const storyCards = sectionRef.current?.querySelectorAll('.story-card');
-      if (storyCards) {
-        gsap.from(storyCards, {
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-          },
-          scale: 0.8,
-          opacity: 0,
-          y: 60,
-          rotateX: -15,
-          duration: 1,
-          stagger: 0.25,
-          ease: "back.out(1.4)",
-          clearProps: "all"
-        });
-      }
-    }, sectionRef);
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
+  const handleCardClick = (index: number) => {
+    setActiveCard(activeCard === index ? null : index);
+  };
 
   const storyElements = [
     {
@@ -85,7 +59,7 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
   ];
 
   return (
-    <section ref={sectionRef} id="about" className="py-16 md:py-24 bg-gradient-to-b from-accent/5 to-background">
+    <section id="about" className="py-16 md:py-24 bg-gradient-to-b from-accent/5 to-background">
       <div className="container max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -111,46 +85,56 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
           {storyElements.map((element, index) => (
             <motion.div
               key={index}
-              className="group relative bg-card border-2 border-border rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible story-card"
-              initial={{ opacity: 1 }}
+              className={`group relative bg-card border-2 border-border rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden story-card cursor-pointer h-[320px] md:h-[380px] ${
+                activeCard === index ? 'ring-2 ring-primary' : ''
+              }`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              onClick={() => handleCardClick(index)}
             >
               {/* Icon Badge */}
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg z-20">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg z-30">
                 <element.icon className="h-6 w-6 text-primary-foreground" />
               </div>
 
-              {/* Default Content */}
-              <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
-                <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
-                  <element.icon className="h-8 w-8 text-primary" />
+              {/* Default Content - Fades out on hover/click */}
+              <div className={`relative z-10 transition-all duration-300 ${
+                activeCard === index ? 'opacity-0' : 'opacity-100 md:group-hover:opacity-0'
+              }`}>
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 mt-4">
+                  <element.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="mb-4">{element.title}</h3>
-                <p className="text-muted-foreground leading-relaxed line-clamp-4">
+                <h3 className="mb-3 text-lg font-semibold">{element.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-sm line-clamp-5">
                   {element.description}
                 </p>
+                <p className="text-xs text-primary mt-4 italic">Tap to read more...</p>
               </div>
 
-              {/* Hover Content - Full Description */}
-              <div className="absolute inset-0 bg-gradient-to-br from-card to-secondary/20 rounded-3xl p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-auto">
-                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
-                  <element.icon className="h-6 w-6 text-primary-foreground" />
+              {/* Expanded Content - Shows on hover (desktop) or click (mobile) */}
+              <div className={`absolute inset-0 bg-card rounded-3xl p-6 transition-all duration-300 overflow-y-auto z-20 ${
+                activeCard === index ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+              }`}>
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
+                  <element.icon className="h-5 w-5 text-primary-foreground" />
                 </div>
-                <h4 className="text-center mb-4">{element.title}</h4>
+                <h4 className="text-center mb-3 font-semibold">{element.title}</h4>
                 
-                <p className="text-sm text-foreground/90 leading-relaxed">
+                <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-line">
                   {element.description}
-                </p>
-              </div>
-
-              {/* Decorative corner accent */}
-              <div className="absolute bottom-4 right-4 w-20 h-20 opacity-5 group-hover:opacity-10 transition-opacity">
-                <element.icon className="w-full h-full text-primary" />
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
+        
+        {/* Instruction text */}
+        <p className="text-center text-sm text-muted-foreground italic mb-8">
+          Click on each card to read the full story
+        </p>
 
         {/* Bottom Stats/Values Section */}
         <motion.div

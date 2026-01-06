@@ -8,7 +8,7 @@ import { ComparisonSection } from "./components/ComparisonSection";
 import { PricingSection } from "./components/PricingSection";
 import { SocialProofSection } from "./components/SocialProofSection";
 import { TestimonialsSection } from "./components/TestimonialsSection";
-import { ConsultationBooking } from "./components/ConsultationBooking";
+// ConsultationBooking removed - functionality merged into PricingSection
 import { FAQSection } from "./components/FAQSection";
 import { FinalCTASection } from "./components/FinalCTASection";
 import { Footer } from "./components/Footer";
@@ -167,13 +167,7 @@ export default function App() {
 
           <Header
             cartCount={cartItems.length}
-            onCartClick={() => {
-              if (cartItems.length === 0) {
-                toast.error("Your cart is empty!");
-                return;
-              }
-              setShowCart(true);
-            }}
+            onCartClick={() => setShowCart(true)}
             onNavigate={handleNavigate}
           />
 
@@ -223,13 +217,7 @@ export default function App() {
 
           <Header
             cartCount={cartItems.length}
-            onCartClick={() => {
-              if (cartItems.length === 0) {
-                toast.error("Your cart is empty!");
-                return;
-              }
-              setShowCart(true);
-            }}
+            onCartClick={() => setShowCart(true)}
             onNavigate={handleNavigate}
           />
 
@@ -258,13 +246,7 @@ export default function App() {
 
         <Header
           cartCount={cartItems.length}
-          onCartClick={() => {
-            if (cartItems.length === 0) {
-              toast.error("Your cart is empty!");
-              return;
-            }
-            setShowCart(true);
-          }}
+          onCartClick={() => setShowCart(true)}
           onNavigate={handleNavigate}
         />
 
@@ -277,7 +259,6 @@ export default function App() {
           <PricingSection onAddToCart={handleAddToCart} />
           <SocialProofSection />
           <TestimonialsSection />
-          <ConsultationBooking />
           <FAQSection />
           <FinalCTASection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
           <AboutSection />
