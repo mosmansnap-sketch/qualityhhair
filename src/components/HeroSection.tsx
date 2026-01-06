@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { gsap, ScrollTrigger } from "../utils/gsap-config";
-import qualityHairLogo from "/images/logo/QH Logo v2.png";
+const qualityHairLogo = "/images/logo/qh-logo.png";
 
 interface HeroSectionProps {
   onGetStarted: () => void;

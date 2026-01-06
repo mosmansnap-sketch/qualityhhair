@@ -5,14 +5,14 @@ import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import qualityHairLogo from "/images/logo/QH Logo v2.png";
 
 interface HeaderProps {
   cartCount: number;
   onCartClick: () => void;
+  onNavigate?: () => void; // Called when navigating to reset any active flows
 }
 
-export function Header({ cartCount, onCartClick }: HeaderProps) {
+export function Header({ cartCount, onCartClick, onNavigate }: HeaderProps) {
   const logoRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -52,39 +52,49 @@ export function Header({ cartCount, onCartClick }: HeaderProps) {
 
   const scrollToSection = (href: string) => {
     console.log('Scrolling to:', href);
-    const element = document.querySelector(href);
+    
+    // First, reset any active flows (analysis, checkout, etc.)
+    if (onNavigate) {
+      onNavigate();
+    }
+    
+    // Use setTimeout to allow state updates to complete before scrolling
+    setTimeout(() => {
+      const element = document.querySelector(href);
 
-    if (element) {
-      console.log('Element found:', element);
-      const navHeight = 100;
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - navHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-      console.log('Scrolled successfully to:', href);
-    } else {
-      console.error('Element not found:', href);
-      // Fallback: try to find by ID without #
-      const fallbackElement = document.getElementById(href.replace('#', ''));
-      if (fallbackElement) {
-        console.log('Found element by ID:', href.replace('#', ''));
+      if (element) {
+        console.log('Element found:', element);
         const navHeight = 100;
-        const elementPosition = fallbackElement.getBoundingClientRect().top + window.pageYOffset;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
         const offsetPosition = elementPosition - navHeight;
 
         window.scrollTo({
           top: offsetPosition,
           behavior: "smooth"
         });
+        console.log('Scrolled successfully to:', href);
       } else {
-        console.error('No element found for:', href);
-        // Last resort: scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.error('Element not found:', href);
+        // Fallback: try to find by ID without #
+        const fallbackElement = document.getElementById(href.replace('#', ''));
+        if (fallbackElement) {
+          console.log('Found element by ID:', href.replace('#', ''));
+          const navHeight = 100;
+          const elementPosition = fallbackElement.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - navHeight;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        } else {
+          console.error('No element found for:', href);
+          // Last resort: scroll to top
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
-    }
+    }, 50);
+    
     setMobileMenuOpen(false);
   };
 
@@ -109,14 +119,14 @@ export function Header({ cartCount, onCartClick }: HeaderProps) {
           >
             <div ref={logoRef} className="relative">
               <img
-                src={qualityHairLogo}
+                src="/images/logo/qh-logo.png"
                 alt="Quality Hair"
                 className="h-16 md:h-20 w-auto object-contain"
                 style={{
                   filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.4))',
                 }}
                 onError={(e) => {
-                  console.error('Logo failed to load:', qualityHairLogo);
+                  console.error('Logo failed to load');
                   e.currentTarget.style.display = 'none';
                   const fallback = document.createElement('div');
                   fallback.textContent = 'Quality Hair';

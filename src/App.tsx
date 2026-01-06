@@ -139,6 +139,13 @@ export default function App() {
     }
   };
 
+  // Reset all flows and go back to main page
+  const handleNavigate = () => {
+    setShowAnalysisFlow(false);
+    setShowCheckout(false);
+    setShowSuccess(false);
+  };
+
   // Show Success Page
   if (showSuccess) {
     return (
@@ -167,6 +174,7 @@ export default function App() {
               }
               setShowCart(true);
             }}
+            onNavigate={handleNavigate}
           />
 
           <main className="pb-12">
@@ -219,9 +227,10 @@ export default function App() {
               if (cartItems.length === 0) {
                 toast.error("Your cart is empty!");
                 return;
-            }
+              }
               setShowCart(true);
             }}
+            onNavigate={handleNavigate}
           />
 
           <main className="pb-12">
@@ -256,6 +265,7 @@ export default function App() {
             }
             setShowCart(true);
           }}
+          onNavigate={handleNavigate}
         />
 
         <main>
