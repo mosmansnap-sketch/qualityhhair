@@ -1,47 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Droplets, Sparkles, Clock } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 
 export function HowItWorksSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState<number | null>(null);
 
   const handleStepClick = (stepNumber: number) => {
     setActiveStep(activeStep === stepNumber ? null : stepNumber);
   };
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const stepCards = sectionRef.current?.querySelectorAll('.step-card');
-      if (stepCards) {
-        gsap.from(stepCards, {
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-          },
-          scale: 0.8,
-          opacity: 0,
-          y: 60,
-          rotateX: -15,
-          duration: 1,
-          stagger: 0.25,
-          ease: "back.out(1.4)",
-          clearProps: "all"
-        });
-      }
-    }, sectionRef);
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="how-it-works" className="py-16 md:py-24 bg-background">
+    <section id="how-it-works" className="py-16 md:py-24 bg-background">
       <div className="container max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -99,7 +68,7 @@ export function HowItWorksSection() {
             </div>
 
             {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
-            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+            <div className={`absolute inset-0 bg-card rounded-3xl p-8 transition-all duration-300 overflow-y-auto z-20 ${
               activeStep === 1 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
             }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
@@ -231,7 +200,7 @@ export function HowItWorksSection() {
             </div>
 
             {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
-            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+            <div className={`absolute inset-0 bg-card rounded-3xl p-8 transition-all duration-300 overflow-y-auto z-20 ${
               activeStep === 2 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
             }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
@@ -292,7 +261,7 @@ export function HowItWorksSection() {
             </div>
 
             {/* Detailed Content - Shows on click (mobile) or hover (desktop) */}
-            <div className={`absolute inset-0 bg-gradient-to-br from-card/95 to-secondary/20 rounded-3xl p-8 transition-all duration-300 overflow-y-auto ${
+            <div className={`absolute inset-0 bg-card rounded-3xl p-8 transition-all duration-300 overflow-y-auto z-20 ${
               activeStep === 3 ? 'opacity-100 visible' : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
             }`}>
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">

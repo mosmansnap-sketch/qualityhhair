@@ -1,39 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
 import { Card } from './ui/card';
 import { motion } from 'framer-motion';
 import { Sparkles, Shield, TrendingUp, Flame, Heart, Droplets } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function BenefitsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Simple visibility detection using Intersection Observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          console.log('BenefitsSection is visible');
-          setIsVisible(true);
-        }
-      },
-      {
-        threshold: 0.1, // Trigger when 10% visible
-        rootMargin: '0px 0px -100px 0px' // Trigger slightly earlier
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const benefits = [
     {
@@ -74,83 +43,18 @@ export function BenefitsSection() {
     }
   ];
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    console.log('BenefitsSection mounted, section:', section);
-
-    const ctx = gsap.context(() => {
-      // Enhanced GSAP animation for section header - with better timing
-      const header = section.querySelector('.benefits-header');
-      if (header) {
-        console.log('Found header, animating...');
-        gsap.from(header, {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 90%', // Earlier trigger for better visibility
-            toggleActions: 'play none none reverse',
-            onEnter: () => console.log('Benefits section header animation triggered'),
-            onLeave: () => console.log('Benefits section header animation reversed'),
-          },
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          ease: 'power3.out'
-        });
-      }
-
-      // Enhanced card animations - with immediate visibility
-      const cards = section.querySelectorAll('.benefit-card');
-      console.log('Found cards:', cards.length);
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 85%', // Earlier trigger
-          toggleActions: 'play none none reverse',
-          onEnter: () => console.log('Benefits cards animation triggered'),
-        },
-        y: 80,
-        opacity: 0,
-        scale: 0.9,
-        rotateX: -10,
-        duration: 1,
-        stagger: 0.15,
-        ease: 'back.out(1.4)',
-      });
-
-      // Add parallax effect to gradient background - more subtle
-      gsap.to(section, {
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-        y: -10, // Reduced parallax for better stability
-        ease: 'none'
-      });
-    });
-
-    return () => {
-      ctx.revert();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
-
   return (
     <section
       id="benefits"
-      ref={sectionRef}
       className="py-16 md:py-24 bg-background"
-      style={{ minHeight: '400px' }} // Ensure minimum height
     >
       <div className="container max-w-6xl mx-auto px-4">
-        {/* Section Header - Always visible */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -168,13 +72,12 @@ export function BenefitsSection() {
             <motion.div
               key={index}
               className="benefit-card group"
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                type: "spring",
-                stiffness: 300
+                duration: 0.5,
+                delay: index * 0.08
               }}
               whileHover={{ y: -8, scale: 1.02 }}
             >
