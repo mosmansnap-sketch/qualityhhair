@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { AlertCircle, Sparkles } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function ProblemSolutionSection() {
+  const { t } = useLanguage();
 
   return (
     <section id="problem-solution" className="py-16 md:py-24 px-4">
@@ -14,9 +16,9 @@ export function ProblemSolutionSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="mb-4 text-4xl font-bold uppercase tracking-[0.02em]">The Problem With Traditional Treatments</h2>
+          <h2 className="mb-4 text-4xl font-bold uppercase tracking-[0.02em]">{t('problem.title')}</h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            Keratin treatments out there today force you to choose between straight hair and your natural hair texture
+            {t('problem.subtitle')}
           </p>
         </motion.div>
 
@@ -39,12 +41,8 @@ export function ProblemSolutionSection() {
             </div>
             
             <div className="space-y-4 text-foreground/80">
-              <p>
-                We can all agree it's beautiful in the beginning. After a couple of weeks, you start losing hair because the treatment made your hair straight. And it's because your hair is trying to stretch back.
-              </p>
-              <p>
-                After 2-3 months, you end up with 2 different hair textures. Some even notice the new growing hair has a dryer texture. Traditional keratin needs heat and hair straightening, and it's not recommended for pregnancy or kids. Once you've had that treatment, I normally don't suggest mine until your natural hair has grown out all the way to your shoulders.
-              </p>
+              <p>{t('problem.text1')}</p>
+              <p>{t('problem.text2')}</p>
             </div>
           </motion.div>
 
@@ -60,18 +58,11 @@ export function ProblemSolutionSection() {
               <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
                 <Sparkles className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="text-green-800">
-                A New Beginning for Your Hair
-              </h3>
+              <h3 className="text-green-800">{t('solution.title')}</h3>
             </div>
             
             <div className="space-y-4 text-foreground/80">
-              <p>
-                Our organic protein treatment works WITH your hair, not against it. Applied to dry hair and rinsed with pure water - no heat, no flat irons, no compromise.
-              </p>
-              <p>
-                Your curls don't disappear - they come back more defined, hydrated, and alive. That first touch after rinsing - that moisture slip between your fingers - it's your hair saying thank you.
-              </p>
+              <p>{t('solution.text')}</p>
             </div>
           </motion.div>
         </div>

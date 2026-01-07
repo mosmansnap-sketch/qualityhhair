@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { gsap, ScrollTrigger } from "../utils/gsap-config";
 import { BackgroundTexture } from "./ui/background-texture";
+import { useLanguage } from "../contexts/LanguageContext";
 const qualityHairLogo = "/images/logo/qh-logo.png";
 
 interface HeroSectionProps {
@@ -12,6 +13,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
+  const { t } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -27,10 +29,10 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
   ];
 
   const trustIndicators = [
-    { icon: Check, text: "Safe for Pregnancy & Children" },
-    { icon: Check, text: "100% Organic Formula" },
-    { icon: Check, text: "No Heat Required" },
-    { icon: Check, text: "Lasts 3-6 Months" },
+    { icon: Check, text: t('trust.safePregnancy') },
+    { icon: Check, text: t('trust.organic') },
+    { icon: Check, text: t('trust.noHeat') },
+    { icon: Check, text: t('trust.lasts') },
   ];
 
   // Image preloading and loading state
@@ -324,12 +326,12 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
 
             {/* Main Heading */}
             <h2 className="mb-6 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] max-w-4xl mx-auto">
-              The Only Organic Keratin Treatment That Maintains Your Natural Curls
+              {t('hero.title')}
             </h2>
 
             {/* Subheading */}
             <p className="text-white/90 mb-12 max-w-3xl mx-auto text-lg md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              Transform your hair without changing who you are. No heat. No straightening. Just healthier, more manageable hair that stays true to your texture.
+              {t('hero.subtitle')}
             </p>
           </div>
 
@@ -375,7 +377,7 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
                 className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-4 text-lg"
               >
                 <span className="flex items-center gap-2">
-                  Start Your Transformation
+                  {t('hero.cta')}
                   <ArrowRight className="h-5 w-5" />
                 </span>
               </Button>
@@ -388,7 +390,7 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
                   onClick={onViewPricing}
                   className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black backdrop-blur-md px-8 py-4 text-lg bg-black/30"
                 >
-                  View Pricing
+                  {t('hero.viewPricing')}
                 </Button>
               </motion.div>
             )}

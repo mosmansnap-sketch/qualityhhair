@@ -23,7 +23,7 @@ export function Footer() {
     {
       title: "Support",
       links: [
-        { label: "Contact via WhatsApp", href: "https://wa.me/31612345678", external: true },
+        { label: "Contact via WhatsApp", href: "https://wa.me/46739689937", external: true },
         { label: "Email Us", href: "mailto:support@qualityhhair.com", external: true },
         { label: "Book Consultation", href: "#pricing" }
       ]

@@ -269,7 +269,7 @@ export default function App() {
         </main>
 
         {/* WhatsApp Chat Widget - Replace with your actual WhatsApp number */}
-        <WhatsAppChat phoneNumber="31612345678" />
+        <WhatsAppChat phoneNumber="46739689937" />
 
         {/* Morph Booking Button - Cult UI inspired floating booking form */}
         <MorphBooking 
