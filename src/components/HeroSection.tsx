@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { gsap, ScrollTrigger } from "../utils/gsap-config";
+import { BackgroundTexture } from "./ui/background-texture";
 const qualityHairLogo = "/images/logo/qh-logo.png";
 
 interface HeroSectionProps {
@@ -182,6 +183,15 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
     <div id="hero" ref={heroRef} className="relative min-h-screen w-full overflow-hidden flex items-center">
       {/* Animated gradient overlay with GSAP */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 animate-pulse-slow pointer-events-none z-10" />
+      
+      {/* Background Texture - Cult UI inspired */}
+      <BackgroundTexture 
+        dotColor="rgba(184, 166, 143, 0.2)"
+        dotSize={1.5}
+        dotSpacing={30}
+        opacity={0.4}
+        className="z-5"
+      />
 
       {/* Loading placeholder */}
       {!imagesLoaded && (

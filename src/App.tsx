@@ -22,6 +22,8 @@ import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AnimatedBackground } from "./components/AnimatedBackground";
+import { MorphBooking } from "./components/ui/morph-booking";
+import { ResultsGallerySection } from "./components/ResultsGallerySection";
 
 export interface Product {
   id: string;
@@ -258,6 +260,7 @@ export default function App() {
           <ComparisonSection />
           <PricingSection onAddToCart={handleAddToCart} />
           <SocialProofSection />
+          <ResultsGallerySection />
           <TestimonialsSection />
           <FAQSection />
           <FinalCTASection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
@@ -267,6 +270,14 @@ export default function App() {
 
         {/* WhatsApp Chat Widget - Replace with your actual WhatsApp number */}
         <WhatsAppChat phoneNumber="31612345678" />
+
+        {/* Morph Booking Button - Cult UI inspired floating booking form */}
+        <MorphBooking 
+          className="z-40"
+          onSubmit={(data) => {
+            console.log('Booking submitted:', data);
+          }}
+        />
 
         {showCart && (
           <ShoppingCart
