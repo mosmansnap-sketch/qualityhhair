@@ -172,7 +172,7 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
               <Card 
                 className={`h-full p-6 transition-all duration-300 flex flex-col ${
                   tier.highlighted 
-                    ? 'bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 border-2 border-primary shadow-2xl shadow-primary/20' 
+                    ? 'glass-card border-2 border-primary/50 shadow-2xl shadow-primary/20 glow-accent' 
                     : 'bg-card hover:border-primary/50 hover:shadow-xl'
                 }`}
               >
