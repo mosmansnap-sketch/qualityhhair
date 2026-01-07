@@ -191,10 +191,6 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border-2 border-primary/20 rounded-full mb-4">
-            <Star className="h-5 w-5 fill-primary text-primary" />
-            <span className="font-semibold">Real Results from Real Clients</span>
-          </div>
           <h2 className="mb-4 text-4xl font-bold uppercase tracking-[0.02em]">
             What Our Customers Are Saying
           </h2>

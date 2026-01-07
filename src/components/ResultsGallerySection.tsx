@@ -72,9 +72,6 @@ export function ResultsGallerySection() {
     >
       <div className="container max-w-6xl mx-auto px-4">
         <div ref={titleRef} className="text-center mb-12">
-          <span className="inline-block px-4 py-2 bg-accent/20 rounded-full text-accent-foreground text-sm font-medium mb-4">
-            Real Results
-          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Before & After Transformations
           </h2>

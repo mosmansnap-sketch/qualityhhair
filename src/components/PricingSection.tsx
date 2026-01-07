@@ -150,10 +150,6 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Badge className="mb-4 px-6 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white">
-            <Euro className="h-4 w-4 mr-2" />
-            Transparent Pricing
-          </Badge>
           <h2 className="mb-4">Choose Your Treatment Size</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-4">
             Price based on hair length and thickness

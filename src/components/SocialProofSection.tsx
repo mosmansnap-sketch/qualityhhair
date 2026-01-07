@@ -157,10 +157,6 @@ export function SocialProofSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Badge className="mb-4 px-6 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground">
-            <TrendingUp className="h-4 w-4 mr-2" />
-            Viral on Social Media
-          </Badge>
           <h2 className="mb-4 text-4xl font-bold uppercase tracking-[0.02em]">{t('social.title')}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {t('social.subtitle')}
