@@ -84,6 +84,8 @@ export function TestimonialsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -110,14 +112,37 @@ export function TestimonialsSection() {
     };
   }, []);
 
-  // Auto-play functionality
+  // Auto-play functionality with pause-on-hover
   useEffect(() => {
+    if (isPaused) return;
+    
     const timer = setInterval(() => {
       nextSlide();
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, isPaused]);
+
+  // Touch handlers for swipe support
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    setTouchStart(null);
+  };
 
   const nextSlide = () => {
     setDirection(1);
@@ -179,7 +204,13 @@ export function TestimonialsSection() {
         </motion.div>
 
         {/* Testimonials Carousel */}
-        <div className="relative max-w-2xl mx-auto testimonial-carousel">
+        <div 
+          className="relative max-w-2xl mx-auto testimonial-carousel"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Carousel Controls */}
           <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10">
             <Button

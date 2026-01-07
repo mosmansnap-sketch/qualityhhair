@@ -76,7 +76,7 @@ export function MorphBooking({ className, onSubmit }: MorphBookingProps) {
   ];
 
   return (
-    <div className={cn('fixed bottom-6 right-6 z-50', className)}>
+    <div className={cn('fixed bottom-6 left-6 z-50', className)}>
       <AnimatePresence mode="wait">
         {!isOpen ? (
           <motion.button
