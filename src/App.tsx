@@ -23,8 +23,8 @@ import { toast } from "sonner";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { MorphBooking } from "./components/ui/morph-booking";
-import { ResultsGallerySection } from "./components/ResultsGallerySection";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
+import { ExitIntentPopup } from "./components/ExitIntentPopup";
 
 export interface Product {
   id: string;
@@ -256,16 +256,15 @@ export default function App() {
         <main>
           <HeroSection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
           <ProblemSolutionSection />
+          <PricingSection onAddToCart={handleAddToCart} />
           <HowItWorksSection />
           <BenefitsSection />
           <ComparisonSection />
-          <PricingSection onAddToCart={handleAddToCart} />
           <SocialProofSection />
-          <ResultsGallerySection />
           <TestimonialsSection />
           <FAQSection />
-          <FinalCTASection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
           <AboutSection />
+          <FinalCTASection onGetStarted={startAnalysisFlow} onViewPricing={scrollToPricing} />
           <Footer />
         </main>
 
@@ -282,6 +281,9 @@ export default function App() {
 
         {/* Sticky Mobile CTA */}
         <StickyMobileCTA onGetStarted={startAnalysisFlow} />
+
+        {/* Exit Intent Popup */}
+        <ExitIntentPopup onGetStarted={startAnalysisFlow} />
 
         {showCart && (
           <ShoppingCart
