@@ -36,16 +36,25 @@ export function CameraCapture({ onCapture, onSelectPreset }: CameraCaptureProps)
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: 640, height: 480 },
+        video: { 
+          facingMode: 'user', 
+          width: { ideal: 640 }, 
+          height: { ideal: 480 } 
+        },
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
+        // Ensure video plays on mobile
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch(console.error);
+        };
         setIsStreaming(true);
         setUseUpload(false);
       }
     } catch (err) {
       console.error('Camera access denied:', err);
+      alert('Camera access was denied. Please use the upload option instead.');
       setUseUpload(true);
     }
   };

@@ -343,7 +343,7 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
             {trustIndicators.map((indicator, index) => (
               <motion.div
                 key={index}
-                className="flex items-center justify-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-4 shadow-xl"
+                className="flex items-center justify-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-4 shadow-xl cursor-pointer active:scale-105 active:bg-white/30"
                 style={{
                   boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(251,191,36,0.2)'
                 }}
@@ -351,6 +351,11 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
                   scale: 1.05,
                   backgroundColor: "rgba(255,255,255,0.3)",
                   boxShadow: "0 20px 40px rgba(251, 191, 36, 0.4), 0 0 40px rgba(251,191,36,0.5)"
+                }}
+                whileTap={{
+                  scale: 1.08,
+                  backgroundColor: "rgba(255,255,255,0.35)",
+                  boxShadow: "0 20px 40px rgba(251, 191, 36, 0.5), 0 0 50px rgba(251,191,36,0.6)"
                 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -381,7 +386,7 @@ export function HeroSection({ onGetStarted, onViewPricing }: HeroSectionProps) {
                 <Button
                   variant="outline"
                   onClick={onViewPricing}
-                  className="border-2 border-white text-white hover:bg-white hover:text-black backdrop-blur-md px-8 py-4 text-lg"
+                  className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black backdrop-blur-md px-8 py-4 text-lg bg-black/30"
                 >
                   View Pricing
                 </Button>
