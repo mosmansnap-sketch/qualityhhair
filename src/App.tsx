@@ -15,7 +15,7 @@ import { Footer } from "./components/Footer";
 import { ShoppingCart } from "./components/ShoppingCart";
 import { CheckoutSuccess } from "./components/CheckoutSuccess";
 import { CheckoutForm } from "./components/CheckoutForm";
-import { HairAnalysisFlow } from "./components/HairAnalysisFlow";
+import { AIHairAnalysis } from "./components/AIHairAnalysis";
 import { WhatsAppChat } from "./components/WhatsAppChat";
 import { AboutSection } from "./components/AboutSection";
 import { Toaster } from "./components/ui/sonner";
@@ -174,8 +174,8 @@ export default function App() {
           />
 
           <main className="pb-12">
-            <HairAnalysisFlow
-              onComplete={(results) => {
+            <AIHairAnalysis
+              onComplete={(results: { bottleSize: string; price: string; description: string }) => {
                 // Convert analysis results to product and add to cart
                 const product: Product = {
                   id: "analysis-product-" + Date.now(),
