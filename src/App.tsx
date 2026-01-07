@@ -24,6 +24,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { MorphBooking } from "./components/ui/morph-booking";
 import { ResultsGallerySection } from "./components/ResultsGallerySection";
+import { StickyMobileCTA } from "./components/StickyMobileCTA";
 
 export interface Product {
   id: string;
@@ -278,6 +279,9 @@ export default function App() {
             console.log('Booking submitted:', data);
           }}
         />
+
+        {/* Sticky Mobile CTA */}
+        <StickyMobileCTA onGetStarted={startAnalysisFlow} />
 
         {showCart && (
           <ShoppingCart

@@ -40,10 +40,10 @@ export function ProblemSolutionSection() {
             
             <div className="space-y-4 text-foreground/80">
               <p>
-                We can all agree it's beautiful in the beginning after a couple of weeks  you start losing hair because the treatment made your hair straight. And it's Becasue your hair is trying to stretch back.
+                We can all agree it's beautiful in the beginning. After a couple of weeks, you start losing hair because the treatment made your hair straight. And it's because your hair is trying to stretch back.
               </p>
               <p>
-                After 2-3 months you end up with 2 different hair texture, some even notice the new growing hair got dryer texture. Keratin out there needs to be used with heat and hair straightening. And it's not recommended for pregnancy and kids. Once you had that I normally don't suggest my treatment until your own hair grown out all the way to your shoulder.
+                After 2-3 months, you end up with 2 different hair textures. Some even notice the new growing hair has a dryer texture. Traditional keratin needs heat and hair straightening, and it's not recommended for pregnancy or kids. Once you've had that treatment, I normally don't suggest mine until your natural hair has grown out all the way to your shoulders.
               </p>
             </div>
           </motion.div>

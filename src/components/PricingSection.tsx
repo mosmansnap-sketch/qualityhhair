@@ -3,11 +3,13 @@ import { motion } from 'framer-motion';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Check, Euro, Phone } from 'lucide-react';
+import { Check, Phone, Euro } from 'lucide-react';
 import { Product } from '../App';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { openCalendlyPopup } from '../utils/calendly';
+import { TrustBadges } from './TrustBadges';
+import { UrgencyBanner } from './UrgencyBanner';
 
 
 interface PricingTier {
@@ -154,6 +156,8 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
           <p className="text-muted-foreground max-w-2xl mx-auto mb-4">
             Price based on hair length and thickness
           </p>
+          <UrgencyBanner variant="stock" className="justify-center mb-4" />
+          <TrustBadges showPayment={false} className="mb-2" />
         </motion.div>
 
         {/* Main Treatment Pricing */}

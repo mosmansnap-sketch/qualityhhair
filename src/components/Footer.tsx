@@ -3,38 +3,37 @@ import { Instagram, Mail } from "lucide-react";
 export function Footer() {
   const footerSections = [
     {
-      title: "Customer Care",
+      title: "Quick Links",
       links: [
-        { label: "Contact Us", href: "#contact" },
-        { label: "Track Order", href: "#track" },
-        { label: "Returns & Refunds", href: "#returns" },
-        { label: "Shipping Information", href: "#shipping" }
+        { label: "How It Works", href: "#how-it-works" },
+        { label: "Pricing", href: "#pricing" },
+        { label: "FAQ", href: "#faq" },
+        { label: "Testimonials", href: "#testimonials" }
       ]
     },
     {
-      title: "Learn",
+      title: "Learn More",
       links: [
-        { label: "Application Videos", href: "#videos" },
-        { label: "Aftercare Guide", href: "#aftercare" },
-        { label: "Hair Type Guide", href: "#hair-guide" },
-        { label: "Blog", href: "#blog" }
+        { label: "Benefits", href: "#benefits" },
+        { label: "Compare Treatments", href: "#comparison" },
+        { label: "Our Story", href: "#about" },
+        { label: "Results Gallery", href: "#results" }
       ]
     },
     {
-      title: "About",
+      title: "Support",
       links: [
-        { label: "Our Story", href: "#story" },
-        { label: "Ingredients", href: "#ingredients" },
-        { label: "Certifications", href: "#certifications" },
-        { label: "Reviews", href: "#reviews" }
+        { label: "Contact via WhatsApp", href: "https://wa.me/31612345678", external: true },
+        { label: "Email Us", href: "mailto:support@qualityhhair.com", external: true },
+        { label: "Book Consultation", href: "#pricing" }
       ]
     },
     {
       title: "Connect",
       links: [
-        { label: "Instagram: @qualityhair", href: "https://instagram.com/qualityhair", external: true },
-        { label: "Email: support@qualityhair.com", href: "mailto:support@qualityhair.com", external: true },
-        { label: "WhatsApp Support", href: "https://wa.me/", external: true }
+        { label: "Instagram", href: "https://instagram.com/qualityhair", external: true },
+        { label: "TikTok", href: "https://tiktok.com/@qualityhair", external: true },
+        { label: "Snapchat", href: "https://snapchat.com/add/qualityhair", external: true }
       ]
     }
   ];
