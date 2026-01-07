@@ -28,7 +28,7 @@ export function BeforeAfterGallery({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoAdvance);
   const [hoveredSide, setHoveredSide] = useState<'before' | 'after' | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (isPlaying) {
