@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Phone, Mail, User, Sparkles } from 'lucide-react';
+import { Calendar, Phone, Mail, User, Sparkles, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -30,79 +30,55 @@ export function ConsultationBooking() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.preferredDate || !formData.preferredTime) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Create calendar event data
-    const eventData = {
-      title: `Hair Consultation - ${formData.name}`,
-      description: `
-Hair Type: ${formData.hairType}
-Hair Concerns: ${formData.currentHairConcerns}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Additional Notes: ${formData.additionalNotes || 'None'}
-      `.trim(),
-      start: formData.preferredDate,
-      duration: 30, // 30 minutes
-    };
+    try {
+      // Combine date and time
+      const consultationDateTime = `${formData.preferredDate}T${formData.preferredTime}:00`;
 
-    // In a real implementation, you would:
-    // 1. Send this to your backend API
-    // 2. Create a calendar event via Google Calendar API or similar
-    // 3. Send confirmation email to customer
-    // 4. Send notification to you via email/WhatsApp
+      // Create Stripe Checkout session
+      const response = await fetch('/api/create-consultation-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: formData.name,
+          customerEmail: formData.email,
+          customerPhone: formData.phone,
+          consultationDate: consultationDateTime,
+          hairType: formData.hairType,
+          concerns: formData.currentHairConcerns,
+          successUrl: `${window.location.origin}/consultation-success?session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: `${window.location.origin}/#consultation`,
+        }),
+      });
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+      const data = await response.json();
 
-    // For now, we'll create a Google Calendar link that pre-fills the event
-    const calendarUrl = createGoogleCalendarUrl(formData);
-    
-    // Show success message
-    toast.success('Consultation Request Received!', {
-      description: 'We\'ll contact you shortly to confirm your appointment.',
-      duration: 5000,
-    });
-
-    // Open calendar link in new tab
-    window.open(calendarUrl, '_blank');
-
-    // Send WhatsApp notification (optional)
-    // const whatsappMessage = `New Consultation Booking:\n\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nHair Type: ${formData.hairType}\nConcerns: ${formData.currentHairConcerns}\nPreferred Date: ${formData.preferredDate}\nPreferred Time: ${formData.preferredTime}`;
-    
-    console.log('Consultation Data:', formData);
-    console.log('Calendar Event:', eventData);
-    
-    setIsSubmitting(false);
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      hairType: '',
-      currentHairConcerns: '',
-      preferredDate: '',
-      preferredTime: '',
-      additionalNotes: ''
-    });
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+    } catch (error) {
+      console.error('Error creating consultation checkout:', error);
+      toast.error('Failed to process booking. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
-  const createGoogleCalendarUrl = (data: typeof formData) => {
-    const baseUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
-    const title = encodeURIComponent(`Hair Consultation - ${data.name}`);
-    const details = encodeURIComponent(`
-Hair Type: ${data.hairType}
-Concerns: ${data.currentHairConcerns}
-Phone: ${data.phone}
-Email: ${data.email}
-${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
-    `.trim());
-    
-    // Format date for Google Calendar (YYYYMMDDTHHmmss)
-    const dateTime = data.preferredDate ? `${data.preferredDate.replace(/-/g, '')}T${data.preferredTime.replace(/:/g, '')}00` : '';
-    
-    return `${baseUrl}&text=${title}&details=${details}&dates=${dateTime}/${dateTime}`;
+  // Get tomorrow's date as minimum selectable date
+  const getMinDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
   };
 
   return (
@@ -124,6 +100,9 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Get personalized advice from our hair experts. We'll analyze your hair type, discuss your concerns, and recommend the perfect treatment plan for you.
+          </p>
+          <p className="text-sm text-primary mt-2 font-medium">
+            If you purchase during the consultation, the €10 fee is credited toward your order!
           </p>
         </motion.div>
 
@@ -159,12 +138,11 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                   <div className="space-y-2">
                     <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
                       <Phone className="h-4 w-4 text-primary" />
-                      Phone Number *
+                      Phone Number
                     </Label>
                     <Input
                       id="phone"
                       type="tel"
-                      required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+31 6 12345678"
@@ -187,6 +165,9 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                     placeholder="your.email@example.com"
                     className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Your discount code will be sent to this email after payment
+                  </p>
                 </div>
               </div>
 
@@ -197,11 +178,10 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                 </h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="hairType" className="font-medium">Hair Type / Texture *</Label>
+                    <Label htmlFor="hairType" className="font-medium">Hair Type / Texture</Label>
                     <Select
                       value={formData.hairType}
                       onValueChange={(value) => setFormData({ ...formData, hairType: value })}
-                      required
                     >
                       <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
                         <SelectValue placeholder="Select your hair type" />
@@ -223,11 +203,10 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="concerns" className="font-medium">Main Hair Concerns *</Label>
+                    <Label htmlFor="concerns" className="font-medium">Main Hair Concerns</Label>
                     <Select
                       value={formData.currentHairConcerns}
                       onValueChange={(value) => setFormData({ ...formData, currentHairConcerns: value })}
-                      required
                     >
                       <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
                         <SelectValue placeholder="Select main concern" />
@@ -264,7 +243,7 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                       required
                       value={formData.preferredDate}
                       onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                      min={new Date().toISOString().split('T')[0]}
+                      min={getMinDate()}
                       className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                     />
                   </div>
@@ -317,25 +296,33 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      >
-                        <Sparkles className="h-5 w-5" />
-                      </motion.div>
-                      Processing...
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Redirecting to payment...
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5" />
-                      Book Consultation (€10)
+                      <CreditCard className="h-5 w-5" />
+                      Pay €10 & Book Consultation
                     </span>
                   )}
                 </Button>
 
-                <p className="text-sm text-muted-foreground text-center">
-                  You'll receive a confirmation email within 24 hours. The €10 fee can be applied toward your first purchase.
-                </p>
+                <div className="text-center space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    You'll receive a confirmation email with your unique discount code
+                  </p>
+                  <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <span className="text-green-600">✓</span> Secure payment
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="text-green-600">✓</span> Instant confirmation
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="text-green-600">✓</span> €10 credit on purchase
+                    </span>
+                  </div>
+                </div>
               </div>
             </form>
           </Card>
@@ -353,9 +340,9 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <Calendar className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="mb-2">30-Minute Session</h3>
+            <h3 className="mb-2">10-Minute Session</h3>
             <p className="text-sm text-muted-foreground">
-              Personal video call with our hair expert
+              Quick video call with our hair expert
             </p>
           </Card>
 
@@ -371,11 +358,11 @@ ${data.additionalNotes ? `Notes: ${data.additionalNotes}` : ''}
 
           <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Phone className="h-6 w-6 text-primary" />
+              <CreditCard className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="mb-2">Ongoing Support</h3>
+            <h3 className="mb-2">€10 Credit</h3>
             <p className="text-sm text-muted-foreground">
-              Follow-up guidance after your consultation
+              Fee applied to your order if you purchase during call
             </p>
           </Card>
         </motion.div>

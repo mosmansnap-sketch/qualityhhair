@@ -1,19 +1,27 @@
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { ShoppingBag, ArrowLeft, Plus, Minus, Trash2, CreditCard, Package, Truck } from "lucide-react";
+import { Input } from "./ui/input";
+import { ShoppingBag, ArrowLeft, Plus, Minus, Trash2, CreditCard, Package, Truck, Tag, Check, X, Loader2 } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import type { Product } from "./ProductRecommendations";
 import { useState, useEffect } from "react";
 import { Badge } from "./ui/badge";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
+
+interface DiscountInfo {
+  code: string;
+  amount: number;
+  expiresAt: string;
+}
 
 interface ShoppingCartProps {
   items: Product[];
   onRemoveItem: (productId: string) => void;
   onUpdateQuantity: (productId: string, quantity: number) => void;
   onClose: () => void;
-  onCheckout: () => void;
+  onCheckout: (discount?: DiscountInfo) => void;
 }
 
 
@@ -28,6 +36,12 @@ export function ShoppingCart({
   const [cartItems, setCartItems] = useState(() =>
     items.map(item => ({ ...item, quantity: 1 }))
   );
+
+  // Discount code state
+  const [discountCode, setDiscountCode] = useState("");
+  const [isValidating, setIsValidating] = useState(false);
+  const [appliedDiscount, setAppliedDiscount] = useState<DiscountInfo | null>(null);
+  const [discountError, setDiscountError] = useState<string | null>(null);
 
   // Update local state when props change
   useEffect(() => {
@@ -49,10 +63,53 @@ export function ShoppingCart({
     onRemoveItem(productId);
   };
 
+  // Validate discount code
+  const handleApplyDiscount = async () => {
+    if (!discountCode.trim()) {
+      setDiscountError("Please enter a discount code");
+      return;
+    }
+
+    setIsValidating(true);
+    setDiscountError(null);
+
+    try {
+      const response = await fetch('/api/validate-discount-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: discountCode.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (data.valid) {
+        setAppliedDiscount(data.discount);
+        setDiscountError(null);
+        toast.success(`Discount applied! €${data.discount.amount} off your order`);
+      } else {
+        setDiscountError(data.error || "Invalid discount code");
+        setAppliedDiscount(null);
+      }
+    } catch (error) {
+      console.error('Error validating discount code:', error);
+      setDiscountError("Failed to validate code. Please try again.");
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  // Remove applied discount
+  const handleRemoveDiscount = () => {
+    setAppliedDiscount(null);
+    setDiscountCode("");
+    setDiscountError(null);
+  };
+
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.1;
-  const shipping = subtotal > 600 ? 0 : 9.99; // Free shipping over €600
-  const total = subtotal + tax + shipping;
+  const shipping = subtotal >= 500 ? 0 : 12; // Free shipping over €500 (Sweden rate as estimate)
+  const discountAmount = appliedDiscount ? appliedDiscount.amount : 0;
+  const total = Math.max(0, subtotal + tax + shipping - discountAmount);
 
   if (items.length === 0) {
     return (
@@ -197,20 +254,134 @@ export function ShoppingCart({
                 </span>
               </div>
 
-              {shipping === 0 && (
+              {shipping === 0 ? (
                 <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
-                  Free shipping on orders over €600
+                  Free shipping on orders over €500
                 </div>
+              ) : (
+                <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded">
+                  Estimate for Sweden • Final cost at checkout based on your country
+                </div>
+              )}
+
+              {/* Discount Code Section */}
+              <Separator />
+              
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm font-medium">
+                  <Tag className="h-4 w-4 text-primary" />
+                  <span>Discount Code</span>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {appliedDiscount ? (
+                    <motion.div
+                      key="applied"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span className="text-sm font-medium text-green-700">
+                          {appliedDiscount.code}
+                        </span>
+                      </div>
+                      <button
+                        onClick={handleRemoveDiscount}
+                        className="text-green-600 hover:text-green-800 transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="input"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex gap-2"
+                    >
+                      <Input
+                        placeholder="Enter code"
+                        value={discountCode}
+                        onChange={(e) => {
+                          setDiscountCode(e.target.value.toUpperCase());
+                          setDiscountError(null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleApplyDiscount();
+                          }
+                        }}
+                        className={`flex-1 uppercase ${discountError ? 'border-red-300' : ''}`}
+                        disabled={isValidating}
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleApplyDiscount}
+                        disabled={isValidating || !discountCode.trim()}
+                        className="px-3"
+                      >
+                        {isValidating ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          "Apply"
+                        )}
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {discountError && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-xs text-red-500"
+                  >
+                    {discountError}
+                  </motion.p>
+                )}
+
+                <p className="text-xs text-muted-foreground">
+                  Had a consultation? Enter your discount code here.
+                </p>
+              </div>
+
+              {/* Discount Applied */}
+              {appliedDiscount && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="flex justify-between text-sm text-green-600"
+                >
+                  <span>Consultation Discount</span>
+                  <span>-€{appliedDiscount.amount.toFixed(2)}</span>
+                </motion.div>
               )}
 
               <Separator />
               <div className="flex justify-between font-semibold">
                 <span>Total</span>
-                <span className="text-lg">€{total.toFixed(2)}</span>
+                <div className="text-right">
+                  {appliedDiscount && (
+                    <span className="text-sm text-muted-foreground line-through mr-2">
+                      €{(subtotal + tax + shipping).toFixed(2)}
+                    </span>
+                  )}
+                  <span className="text-lg">€{total.toFixed(2)}</span>
+                </div>
               </div>
             </div>
 
-            <Button className="w-full" size="lg" onClick={onCheckout}>
+            <Button 
+              className="w-full" 
+              size="lg" 
+              onClick={() => onCheckout(appliedDiscount || undefined)}
+            >
               <CreditCard className="h-4 w-4 mr-2" />
               Proceed to Checkout
             </Button>

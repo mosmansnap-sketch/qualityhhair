@@ -10,6 +10,13 @@ import { ArrowLeft, Lock, User, CreditCard, Truck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Product } from './ProductRecommendations';
 import { StripePayment } from './StripePayment';
+import { 
+  COUNTRIES, 
+  calculateShipping, 
+  getShippingZone, 
+  getZoneLabel,
+  FREE_SHIPPING_THRESHOLD 
+} from '../utils/shipping';
 
 interface CartItem extends Product {
   quantity: number;
@@ -67,7 +74,7 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
       city: '',
       state: '',
       zipCode: '',
-      country: 'United States'
+      country: 'SE' // Default to Sweden
     },
     billingAddress: {
       sameAsShipping: true,
@@ -75,7 +82,7 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
       city: '',
       state: '',
       zipCode: '',
-      country: 'United States'
+      country: 'SE'
     },
     orderTotal: 0
   });
@@ -85,7 +92,7 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
   // Calculate totals
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.1;
-  const shipping = subtotal > 600 ? 0 : 9.99; // Free shipping over €600
+  const shipping = calculateShipping(formData.shippingAddress.country, subtotal);
   const total = subtotal + tax + shipping;
 
   const validateStep = (step: number): boolean => {
@@ -104,9 +111,8 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
       // Shipping address validation
       if (!formData.shippingAddress.street.trim()) newErrors.street = 'Street address is required';
       if (!formData.shippingAddress.city.trim()) newErrors.city = 'City is required';
-      if (!formData.shippingAddress.state.trim()) newErrors.state = 'State is required';
-      if (!formData.shippingAddress.zipCode.trim()) newErrors.zipCode = 'ZIP code is required';
-      if (!/^\d{5}(-\d{4})?$/.test(formData.shippingAddress.zipCode)) newErrors.zipCode = 'Invalid ZIP code format';
+      if (!formData.shippingAddress.zipCode.trim()) newErrors.zipCode = 'Postal code is required';
+      if (!formData.shippingAddress.country) newErrors.country = 'Country is required';
     }
 
     if (step === 3) {
@@ -234,76 +240,106 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
     </motion.div>
   );
 
-  const renderShippingAddress = () => (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      className="space-y-6"
-    >
-      <div>
-        <h3 className="mb-4 flex items-center gap-2">
-          <Truck className="h-5 w-5 text-primary" />
-          Shipping Address
-        </h3>
+  const renderShippingAddress = () => {
+    const selectedCountry = COUNTRIES.find(c => c.code === formData.shippingAddress.country);
+    const currentZone = selectedCountry ? getShippingZone(selectedCountry.code) : 'sweden';
+    const shippingCost = calculateShipping(formData.shippingAddress.country, subtotal);
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="space-y-6"
+      >
         <div>
-          <Label htmlFor="street">Street Address *</Label>
-          <Input
-            id="street"
-            value={formData.shippingAddress.street}
-            onChange={(e) => handleInputChange('shippingAddress', 'street', e.target.value)}
-            placeholder="123 Main Street"
-            className={errors.street ? 'border-red-500' : ''}
-          />
-          {errors.street && <p className="text-red-500 text-sm mt-1">{errors.street}</p>}
-        </div>
-        <div className="grid md:grid-cols-2 gap-4 mt-4">
-          <div>
-            <Label htmlFor="city">City *</Label>
-            <Input
-              id="city"
-              value={formData.shippingAddress.city}
-              onChange={(e) => handleInputChange('shippingAddress', 'city', e.target.value)}
-              placeholder="New York"
-              className={errors.city ? 'border-red-500' : ''}
-            />
-            {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+          <h3 className="mb-4 flex items-center gap-2">
+            <Truck className="h-5 w-5 text-primary" />
+            Shipping Address
+          </h3>
+
+          {/* Country Selector - First for shipping calculation */}
+          <div className="mb-4">
+            <Label htmlFor="country">Country *</Label>
+            <select
+              id="country"
+              value={formData.shippingAddress.country}
+              onChange={(e) => handleInputChange('shippingAddress', 'country', e.target.value)}
+              className={`w-full h-10 px-3 py-2 text-sm border rounded-md bg-background ${errors.country ? 'border-red-500' : 'border-input'}`}
+            >
+              {COUNTRIES.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
           </div>
+
+          {/* Shipping cost indicator */}
+          <div className={`mb-4 p-3 rounded-lg ${shippingCost === 0 ? 'bg-green-50 border border-green-200' : 'bg-muted'}`}>
+            <div className="flex justify-between items-center">
+              <span className="text-sm">
+                Shipping to {getZoneLabel(currentZone)}
+              </span>
+              <span className={`font-medium ${shippingCost === 0 ? 'text-green-600' : ''}`}>
+                {shippingCost === 0 ? 'FREE' : `€${shippingCost.toFixed(2)}`}
+              </span>
+            </div>
+            {shippingCost > 0 && subtotal < FREE_SHIPPING_THRESHOLD && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Add €{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping
+              </p>
+            )}
+          </div>
+
           <div>
-            <Label htmlFor="state">State *</Label>
+            <Label htmlFor="street">Street Address *</Label>
+            <Input
+              id="street"
+              value={formData.shippingAddress.street}
+              onChange={(e) => handleInputChange('shippingAddress', 'street', e.target.value)}
+              placeholder="123 Main Street"
+              className={errors.street ? 'border-red-500' : ''}
+            />
+            {errors.street && <p className="text-red-500 text-sm mt-1">{errors.street}</p>}
+          </div>
+          <div className="grid md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <Label htmlFor="city">City *</Label>
+              <Input
+                id="city"
+                value={formData.shippingAddress.city}
+                onChange={(e) => handleInputChange('shippingAddress', 'city', e.target.value)}
+                placeholder="Stockholm"
+                className={errors.city ? 'border-red-500' : ''}
+              />
+              {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+            </div>
+            <div>
+              <Label htmlFor="zipCode">Postal Code *</Label>
+              <Input
+                id="zipCode"
+                value={formData.shippingAddress.zipCode}
+                onChange={(e) => handleInputChange('shippingAddress', 'zipCode', e.target.value)}
+                placeholder="111 22"
+                className={errors.zipCode ? 'border-red-500' : ''}
+              />
+              {errors.zipCode && <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>}
+            </div>
+          </div>
+          <div className="mt-4">
+            <Label htmlFor="state">State / Region (optional)</Label>
             <Input
               id="state"
               value={formData.shippingAddress.state}
               onChange={(e) => handleInputChange('shippingAddress', 'state', e.target.value)}
-              placeholder="NY"
-              className={errors.state ? 'border-red-500' : ''}
+              placeholder="Stockholm"
             />
-            {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
           </div>
         </div>
-        <div className="mt-4">
-          <Label htmlFor="zipCode">ZIP Code *</Label>
-          <Input
-            id="zipCode"
-            value={formData.shippingAddress.zipCode}
-            onChange={(e) => handleInputChange('shippingAddress', 'zipCode', e.target.value)}
-            placeholder="10001"
-            className={errors.zipCode ? 'border-red-500' : ''}
-          />
-          {errors.zipCode && <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>}
-        </div>
-        <div className="mt-4">
-          <Label htmlFor="country">Country</Label>
-          <Input
-            id="country"
-            value={formData.shippingAddress.country}
-            onChange={(e) => handleInputChange('shippingAddress', 'country', e.target.value)}
-            placeholder="United States"
-            disabled
-          />
-        </div>
-      </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
+  };
 
   const handleStripePaymentSuccess = (paymentIntentId: string) => {
     // Complete the order with payment intent ID
@@ -373,6 +409,11 @@ export function CheckoutForm({ items, onBack, onComplete }: CheckoutFormProps) {
             {shipping === 0 ? "FREE" : `€${shipping.toFixed(2)}`}
           </span>
         </div>
+        {shipping === 0 && (
+          <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+            Free shipping on orders over €{FREE_SHIPPING_THRESHOLD}
+          </div>
+        )}
         <Separator />
         <div className="flex justify-between font-semibold text-lg">
           <span>Total</span>

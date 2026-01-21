@@ -50,7 +50,7 @@ export function StickyMobileCTA({ onGetStarted, show = true }: StickyMobileCTAPr
                   Transform Your Hair Today
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  From €165 • Free shipping over €200
+                  From €165 • Free shipping over €500
                 </p>
               </div>
               <Button

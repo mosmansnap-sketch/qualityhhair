@@ -14,7 +14,7 @@ export function TrustBadges({
 }: TrustBadgesProps) {
   const badges = [
     { icon: Shield, label: '30-Day Guarantee', color: 'text-green-600' },
-    { icon: Truck, label: 'Free Shipping €200+', color: 'text-blue-600' },
+    { icon: Truck, label: 'Free Shipping €500+', color: 'text-blue-600' },
     { icon: RotateCcw, label: 'Easy Returns', color: 'text-purple-600' },
     { icon: Lock, label: 'Secure Checkout', color: 'text-amber-600' },
   ];

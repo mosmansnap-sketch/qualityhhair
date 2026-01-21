@@ -260,7 +260,7 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
             </div>
             <h3 className="mb-4">Not Sure Which Size?</h3>
             <p className="text-muted-foreground mb-6">
-              Book a 10-minute video consultation for €10. We'll assess your hair and recommend the perfect amount. If you purchase within 48 hours, we'll credit the €10 toward your order.
+              Book a 10-minute video consultation for €10. We'll assess your hair and recommend the perfect amount. If you purchase during the call, the €10 is credited toward your order. Otherwise, the consultation fee is non-refundable.
             </p>
             <Button 
               variant="outline" 

@@ -7,6 +7,7 @@ import { ComparisonSection } from "./ComparisonSection";
 import { PricingSection } from "./PricingSection";
 import { SocialProofSection } from "./SocialProofSection";
 import { TestimonialsSection } from "./TestimonialsSection";
+import { ResultsGallerySection } from "./ResultsGallerySection";
 import { ConsultationBooking } from "./ConsultationBooking";
 import { FAQSection } from "./FAQSection";
 import { FinalCTASection } from "./FinalCTASection";
@@ -215,6 +216,7 @@ export function AppContent({
         <ComparisonSection />
         <PricingSection onAddToCart={handleAddToCart} />
         <SocialProofSection />
+        <ResultsGallerySection />
         <TestimonialsSection />
         <ConsultationBooking />
         <FAQSection />

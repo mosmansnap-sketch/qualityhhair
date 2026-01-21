@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { ProblemSolutionSection } from "./components/ProblemSolutionSection";
@@ -8,7 +8,9 @@ import { ComparisonSection } from "./components/ComparisonSection";
 import { PricingSection } from "./components/PricingSection";
 import { SocialProofSection } from "./components/SocialProofSection";
 import { TestimonialsSection } from "./components/TestimonialsSection";
-// ConsultationBooking removed - functionality merged into PricingSection
+import { ResultsGallerySection } from "./components/ResultsGallerySection";
+import { ConsultationBooking } from "./components/ConsultationBooking";
+import { ConsultationSuccess } from "./pages/ConsultationSuccess";
 import { FAQSection } from "./components/FAQSection";
 import { FinalCTASection } from "./components/FinalCTASection";
 import { Footer } from "./components/Footer";
@@ -44,6 +46,15 @@ export default function App() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showAnalysisFlow, setShowAnalysisFlow] = useState(false);
+  const [showConsultationSuccess, setShowConsultationSuccess] = useState(false);
+
+  // Check URL for consultation success page
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/consultation-success') {
+      setShowConsultationSuccess(true);
+    }
+  }, []);
 
   const handleAddToCart = (product: Product) => {
     // Check if product already in cart
@@ -148,6 +159,18 @@ export default function App() {
     setShowCheckout(false);
     setShowSuccess(false);
   };
+
+  // Show Consultation Success Page
+  if (showConsultationSuccess) {
+    return (
+      <LanguageProvider>
+        <div className="min-h-screen bg-background">
+          <ConsultationSuccess />
+          <Toaster />
+        </div>
+      </LanguageProvider>
+    );
+  }
 
   // Show Success Page
   if (showSuccess) {
@@ -261,6 +284,7 @@ export default function App() {
           <BenefitsSection />
           <ComparisonSection />
           <SocialProofSection />
+          <ResultsGallerySection />
           <TestimonialsSection />
           <FAQSection />
           <AboutSection />
