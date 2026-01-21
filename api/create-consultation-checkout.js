@@ -31,15 +31,15 @@ export default async function handler(req, res) {
       customerName, 
       customerEmail, 
       customerPhone,
-      consultationDate,
       hairType,
       concerns,
+      additionalNotes,
       successUrl,
       cancelUrl 
     } = req.body;
 
-    if (!customerEmail || !consultationDate) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    if (!customerEmail || !customerName) {
+      return res.status(400).json({ error: 'Missing required fields: email and name are required' });
     }
 
     // Create Stripe Checkout session
@@ -52,15 +52,8 @@ export default async function handler(req, res) {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: 'Hair Consultation',
-              description: `Video consultation scheduled for ${new Date(consultationDate).toLocaleDateString('en-GB', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}`,
+              name: 'Hair Consultation - €10',
+              description: '10-minute video consultation with our hair expert. You will book your preferred time slot after payment.',
               images: ['https://qualityhhair.com/images/consultation.png'],
             },
             unit_amount: 1000, // €10.00 in cents
@@ -72,9 +65,10 @@ export default async function handler(req, res) {
         type: 'consultation',
         customerName,
         customerPhone: customerPhone || '',
-        consultationDate,
         hairType: hairType || '',
         concerns: concerns || '',
+        additionalNotes: additionalNotes || '',
+        // consultationDate will be set when Calendly booking happens
       },
       success_url: successUrl || `${req.headers.origin}/consultation-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || `${req.headers.origin}/#consultation`,

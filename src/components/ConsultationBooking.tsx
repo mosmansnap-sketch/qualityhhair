@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Phone, Mail, User, Sparkles, CreditCard, Loader2 } from 'lucide-react';
+import { Phone, Mail, User, Sparkles, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -23,16 +23,14 @@ export function ConsultationBooking() {
     phone: '',
     hairType: '',
     currentHairConcerns: '',
-    preferredDate: '',
-    preferredTime: '',
     additionalNotes: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate form
-    if (!formData.name || !formData.email || !formData.preferredDate || !formData.preferredTime) {
+    // Validate form - only require name and email
+    if (!formData.name || !formData.email) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -40,9 +38,6 @@ export function ConsultationBooking() {
     setIsSubmitting(true);
 
     try {
-      // Combine date and time
-      const consultationDateTime = `${formData.preferredDate}T${formData.preferredTime}:00`;
-
       // Create Stripe Checkout session
       const response = await fetch('/api/create-consultation-checkout', {
         method: 'POST',
@@ -51,9 +46,9 @@ export function ConsultationBooking() {
           customerName: formData.name,
           customerEmail: formData.email,
           customerPhone: formData.phone,
-          consultationDate: consultationDateTime,
           hairType: formData.hairType,
           concerns: formData.currentHairConcerns,
+          additionalNotes: formData.additionalNotes,
           successUrl: `${window.location.origin}/consultation-success?session_id={CHECKOUT_SESSION_ID}`,
           cancelUrl: `${window.location.origin}/#consultation`,
         }),
@@ -74,13 +69,6 @@ export function ConsultationBooking() {
     }
   };
 
-  // Get tomorrow's date as minimum selectable date
-  const getMinDate = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
-  };
-
   return (
     <section id="consultation" className="py-16 md:py-24 bg-gradient-to-b from-accent/5 to-background">
       <div className="container max-w-4xl mx-auto px-4">
@@ -99,10 +87,10 @@ export function ConsultationBooking() {
             Not Sure? Book a Personal Consultation
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Get personalized advice from our hair experts. We'll analyze your hair type, discuss your concerns, and recommend the perfect treatment plan for you.
+            Get personalized advice from our hair experts. Pay €10 first, then book your preferred time slot. After your consultation, you'll receive a discount code valid for 48 hours.
           </p>
           <p className="text-sm text-primary mt-2 font-medium">
-            If you purchase during the consultation, the €10 fee is credited toward your order!
+            The €10 consultation fee is credited toward your order if you purchase within 48 hours!
           </p>
         </motion.div>
 
@@ -166,7 +154,7 @@ export function ConsultationBooking() {
                     className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Your discount code will be sent to this email after payment
+                    Your discount code will be sent to this email after you book your consultation time
                   </p>
                 </div>
               </div>
@@ -226,54 +214,6 @@ export function ConsultationBooking() {
                 </div>
               </div>
 
-              {/* Appointment Scheduling Section */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
-                  Appointment Scheduling
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="date" className="flex items-center gap-2 font-medium">
-                      <Calendar className="h-4 w-4 text-primary" />
-                      Preferred Date *
-                    </Label>
-                    <Input
-                      id="date"
-                      type="date"
-                      required
-                      value={formData.preferredDate}
-                      onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                      min={getMinDate()}
-                      className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="time" className="font-medium">Preferred Time *</Label>
-                    <Select
-                      value={formData.preferredTime}
-                      onValueChange={(value) => setFormData({ ...formData, preferredTime: value })}
-                      required
-                    >
-                      <SelectTrigger className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 focus:border-primary/50 focus:bg-gradient-to-r focus:from-primary/10 focus:to-accent/10 transition-all duration-300">
-                        <SelectValue placeholder="Select time slot" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="09:00">09:00 AM</SelectItem>
-                        <SelectItem value="10:00">10:00 AM</SelectItem>
-                        <SelectItem value="11:00">11:00 AM</SelectItem>
-                        <SelectItem value="12:00">12:00 PM</SelectItem>
-                        <SelectItem value="13:00">01:00 PM</SelectItem>
-                        <SelectItem value="14:00">02:00 PM</SelectItem>
-                        <SelectItem value="15:00">03:00 PM</SelectItem>
-                        <SelectItem value="16:00">04:00 PM</SelectItem>
-                        <SelectItem value="17:00">05:00 PM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-
               {/* Additional Notes */}
               <div className="space-y-2">
                 <Label htmlFor="notes" className="font-medium">Additional Notes (Optional)</Label>
@@ -302,14 +242,14 @@ export function ConsultationBooking() {
                   ) : (
                     <span className="flex items-center gap-2">
                       <CreditCard className="h-5 w-5" />
-                      Pay €10 & Book Consultation
+                      Pay €10 to Continue
                     </span>
                   )}
                 </Button>
 
                 <div className="text-center space-y-2">
                   <p className="text-sm text-muted-foreground">
-                    You'll receive a confirmation email with your unique discount code
+                    After payment, you'll book your consultation time. Then you'll receive a confirmation email with your unique discount code.
                   </p>
                   <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
@@ -338,11 +278,11 @@ export function ConsultationBooking() {
         >
           <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Calendar className="h-6 w-6 text-primary" />
+              <Sparkles className="h-6 w-6 text-primary" />
             </div>
             <h3 className="mb-2">10-Minute Session</h3>
             <p className="text-sm text-muted-foreground">
-              Quick video call with our hair expert
+              Quick video call with our hair expert - book your time after payment
             </p>
           </Card>
 

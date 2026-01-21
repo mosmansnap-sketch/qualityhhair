@@ -1,15 +1,52 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 
+// Declare Calendly types
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (options: { url: string; parentElement: HTMLElement | null }) => void;
+      initPopupWidget: (options: { url: string }) => void;
+    };
+  }
+}
+
 export function ConsultationSuccess() {
   const sessionId = new URLSearchParams(window.location.search).get('session_id');
+  const calendlyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
+
+    // Load Calendly inline widget
+    if (calendlyRef.current && !calendlyRef.current.querySelector('iframe')) {
+      // Check if Calendly script is already loaded
+      if (window.Calendly) {
+        window.Calendly.initInlineWidget({
+          url: 'https://calendly.com/s-aaara/30min',
+          parentElement: calendlyRef.current,
+        });
+      } else {
+        // Load Calendly script if not already loaded
+        const script = document.createElement('script');
+        script.src = 'https://assets.calendly.com/assets/external/widget.js';
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = () => {
+          if (window.Calendly && calendlyRef.current) {
+            window.Calendly.initInlineWidget({
+              url: 'https://calendly.com/s-aaara/30min',
+              parentElement: calendlyRef.current,
+            });
+          }
+        };
+      }
+    }
   }, []);
 
   return (
@@ -36,17 +73,40 @@ export function ConsultationSuccess() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h1 className="text-3xl font-bold mb-2">Booking Confirmed!</h1>
-              <p className="text-muted-foreground mb-8">
-                Thank you for booking your hair consultation
+              <h1 className="text-3xl font-bold mb-2">Payment Successful! ✅</h1>
+              <p className="text-muted-foreground mb-4">
+                Your €10 consultation fee has been processed
               </p>
+              <p className="text-primary font-medium mb-8">
+                Now choose your preferred consultation time below
+              </p>
+            </motion.div>
+
+            {/* Calendly Booking Widget */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mb-8"
+            >
+              <div className="bg-primary/5 rounded-xl p-4 mb-4">
+                <h2 className="text-lg font-semibold mb-2 text-center">Book Your Consultation Time</h2>
+                <p className="text-sm text-muted-foreground text-center">
+                  Select a date and time that works for you. After booking, you'll receive a confirmation email with your discount code.
+                </p>
+              </div>
+              <div 
+                ref={calendlyRef}
+                className="calendly-inline-widget min-h-[700px] w-full"
+                style={{ minHeight: '700px' }}
+              />
             </motion.div>
 
             {/* What happens next */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               className="bg-primary/5 rounded-xl p-6 mb-8 text-left"
             >
               <h2 className="text-lg font-semibold mb-4 text-center">What happens next?</h2>
@@ -54,24 +114,24 @@ export function ConsultationSuccess() {
               <div className="space-y-4">
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Mail className="h-4 w-4 text-primary" />
+                    <Calendar className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">Check your email</p>
+                    <p className="font-medium">Book your time</p>
                     <p className="text-sm text-muted-foreground">
-                      You'll receive a confirmation with your appointment details and <strong>unique discount code</strong>
+                      Select your preferred date and time using the calendar above
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Calendar className="h-4 w-4 text-primary" />
+                    <Mail className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">Video call link</p>
+                    <p className="font-medium">Receive confirmation email</p>
                     <p className="text-sm text-muted-foreground">
-                      We'll send you the video call link before your appointment
+                      You'll receive an email with your appointment details and <strong>unique discount code</strong>
                     </p>
                   </div>
                 </div>
@@ -83,7 +143,7 @@ export function ConsultationSuccess() {
                   <div>
                     <p className="font-medium">Use your €10 discount</p>
                     <p className="text-sm text-muted-foreground">
-                      If you purchase during the call, enter your code at checkout for €10 off (valid 48 hours after consultation)
+                      Your discount code is valid for 48 hours after your consultation starts
                     </p>
                   </div>
                 </div>
@@ -94,11 +154,11 @@ export function ConsultationSuccess() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.6 }}
               className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8"
             >
               <p className="text-amber-800 text-sm">
-                <strong>💡 Important:</strong> Your discount code activates on your consultation date and expires 48 hours later. Make sure to use it if you decide to purchase!
+                <strong>💡 Important:</strong> Your discount code will be sent via email after you book your consultation time. The code activates on your consultation date and expires 48 hours later.
               </p>
             </motion.div>
 
