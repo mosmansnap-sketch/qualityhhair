@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, Target, Users } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function AboutSection() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   const handleCardClick = (index: number) => {
     setActiveCard(activeCard === index ? null : index);
@@ -12,49 +14,18 @@ export function AboutSection() {
   const storyElements = [
     {
       icon: Heart,
-      title: "MY JOURNEY",
-      description: `Quality Hair started from my own struggle with damaged, lifeless hair.
-
-For years, I used hair dyes that dried out my hair. I had to forget about hair growth.
-
-I tried everything out there — nothing worked.
-
-Then one day, I found a keratin product at a market that changed everything.
-
-After just 7 months, my hair became healthy, longer, and easier to manage.
-
-I managed to convince my stylist to sell the product.
-
-One year later, she agreed.
-
-I started presenting the treatment to friends, family members, and even strangers I met.
-I performed it on them, and when they came back for a second treatment, a bell rang in my head.
-
-I gained a client base that spread quite quickly.
-
-What started as a hobby took me by storm.
-I wanted to prove that my treatment was different — no heat, no harsh chemicals, just real results. And when my clients started coming back months later, I knew I had something special.`
+      titleKey: "about.journey.title",
+      descKey: "about.journey.text"
     },
     {
       icon: Sparkles,
-      title: "THE CREATOR",
-      description: `I built this entire operation myself.
-No funding. No investors. No team.
-I chose the countries. I did the marketing. I handled bookings/deposits.
-I met clients worldwide.
-I did the work.
-This is more than business –
-
-Today, I've reached a point where demand is so high,
-that flying like I do is no longer sustainable`
+      titleKey: "about.creator.title",
+      descKey: "about.creator.text"
     },
     {
       icon: Target,
-      title: "OUR MISSION",
-      description: `I always say: good hair is defined by health, not texture.
-My treatment works for kids, for pregnant women, and for anyone who wants to love their hair without changing it.
-It brings moisture, reduces breakage, and restores curls — all without heat or damage.
-At the end of the day, I want to remind women that beauty doesn't mean straightening your identity. It means taking care of what's already you.`
+      titleKey: "about.mission.title",
+      descKey: "about.mission.text"
     }
   ];
 
@@ -70,13 +41,13 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
           className="text-center mb-12"
         >
           <h2 className="mb-4">
-            Our Story
+            {t('about.title')}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-2">
-            Discover the passion and dedication behind Quality Hair
+            {t('about.discoverSubtitle')}
           </p>
           <p className="text-sm text-muted-foreground italic">
-            MY JOURNEY • THE CREATOR • OUR MISSION
+            {t('about.journey.title')} • {t('about.creator.title')} • {t('about.mission.title')}
           </p>
         </motion.div>
 
@@ -107,11 +78,11 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
                 <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 mt-4">
                   <element.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="mb-3 text-lg font-semibold">{element.title}</h3>
+                <h3 className="mb-3 text-lg font-semibold">{t(element.titleKey)}</h3>
                 <p className="text-muted-foreground leading-relaxed text-sm line-clamp-5">
-                  {element.description}
+                  {t(element.descKey)}
                 </p>
-                <p className="text-xs text-primary mt-4 italic">Tap to read more...</p>
+                <p className="text-xs text-primary mt-4 italic">{t('about.readMore')}</p>
               </div>
 
               {/* Expanded Content - Shows on hover (desktop) or click (mobile) */}
@@ -121,10 +92,10 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                   <element.icon className="h-5 w-5 text-primary-foreground" />
                 </div>
-                <h4 className="text-center mb-3 font-semibold">{element.title}</h4>
+                <h4 className="text-center mb-3 font-semibold">{t(element.titleKey)}</h4>
                 
                 <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-line">
-                  {element.description}
+                  {t(element.descKey)}
                 </div>
               </div>
             </motion.div>
@@ -133,7 +104,7 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
         
         {/* Instruction text */}
         <p className="text-center text-sm text-muted-foreground italic mb-8">
-          Click on each card to read the full story
+          {t('about.tapInstruction')}
         </p>
 
         {/* Bottom Stats/Values Section */}
@@ -153,7 +124,7 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
                 <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   2,847+
                 </p>
-                <p className="text-sm text-muted-foreground">Happy Customers</p>
+                <p className="text-sm text-muted-foreground">{t('about.stats.customers')}</p>
               </div>
             </div>
             
@@ -167,7 +138,7 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
                 <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   100%
                 </p>
-                <p className="text-sm text-muted-foreground">Natural Ingredients</p>
+                <p className="text-sm text-muted-foreground">{t('about.stats.natural')}</p>
               </div>
             </div>
             
@@ -181,7 +152,7 @@ At the end of the day, I want to remind women that beauty doesn't mean straighte
                 <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   15+
                 </p>
-                <p className="text-sm text-muted-foreground">Years Experience</p>
+                <p className="text-sm text-muted-foreground">{t('about.stats.experience')}</p>
               </div>
             </div>
           </div>

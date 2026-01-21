@@ -9,7 +9,6 @@ import { PricingSection } from "./components/PricingSection";
 import { SocialProofSection } from "./components/SocialProofSection";
 import { TestimonialsSection } from "./components/TestimonialsSection";
 import { ResultsGallerySection } from "./components/ResultsGallerySection";
-import { ConsultationBooking } from "./components/ConsultationBooking";
 import { ConsultationSuccess } from "./pages/ConsultationSuccess";
 import { FAQSection } from "./components/FAQSection";
 import { FinalCTASection } from "./components/FinalCTASection";

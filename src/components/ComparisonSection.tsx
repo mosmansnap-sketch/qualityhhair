@@ -3,11 +3,13 @@ import { motion } from "framer-motion";
 import { X, Check } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "../contexts/LanguageContext";
 
 
 export function ComparisonSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -45,35 +47,15 @@ export function ComparisonSection() {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
+  
   const comparisons = [
-    {
-      traditional: "Straightens & flattens hair",
-      ours: "Maintains natural texture"
-    },
-    {
-      traditional: "Requires heat & flat iron",
-      ours: "No heat needed"
-    },
-    {
-      traditional: "Contains formaldehyde",
-      ours: "100% organic formula"
-    },
-    {
-      traditional: "Damages curl pattern",
-      ours: "Enhances curl definition"
-    },
-    {
-      traditional: "Not safe for pregnancy",
-      ours: "Safe for pregnancy & kids"
-    },
-    {
-      traditional: "Harsh demarcation line",
-      ours: "Natural, seamless grow-out"
-    },
-    {
-      traditional: "Hair gets drier over time",
-      ours: "Progressive improvement"
-    }
+    { tradKey: "comparison.trad.straightens", oursKey: "comparison.ours.maintains" },
+    { tradKey: "comparison.trad.heat", oursKey: "comparison.ours.noHeat" },
+    { tradKey: "comparison.trad.formaldehyde", oursKey: "comparison.ours.organic" },
+    { tradKey: "comparison.trad.damages", oursKey: "comparison.ours.enhances" },
+    { tradKey: "comparison.trad.notSafe", oursKey: "comparison.ours.safe" },
+    { tradKey: "comparison.trad.demarcation", oursKey: "comparison.ours.seamless" },
+    { tradKey: "comparison.trad.drier", oursKey: "comparison.ours.improves" }
   ];
 
   return (
@@ -88,10 +70,10 @@ export function ComparisonSection() {
           className="text-center mb-12"
         >
           <h2 className="mb-4">
-            What Makes It Different
+            {t('comparison.title')}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Not just another keratin treatment - a revolutionary approach to hair care
+            {t('comparison.subtitle')}
           </p>
         </motion.div>
 
@@ -104,12 +86,12 @@ export function ComparisonSection() {
           <div className="grid grid-cols-2 bg-gradient-to-r from-primary/10 to-accent/10 border-b-2 border-border">
             <div className="p-6 border-r border-border">
               <h3 className="text-center text-red-600 dark:text-red-400">
-                Traditional Keratin
+                {t('comparison.traditional')}
               </h3>
             </div>
             <div className="p-6">
               <h3 className="text-center text-green-600 dark:text-green-400">
-                Our Organic Treatment
+                {t('comparison.ourTreatment')}
               </h3>
             </div>
           </div>
@@ -124,7 +106,7 @@ export function ComparisonSection() {
               <div className="p-6 border-r border-border flex items-center gap-3">
                 <X className="h-5 w-5 text-red-500 flex-shrink-0" />
                 <span className="text-sm md:text-base text-muted-foreground">
-                  {comparison.traditional}
+                  {t(comparison.tradKey)}
                 </span>
               </div>
 
@@ -132,7 +114,7 @@ export function ComparisonSection() {
               <div className="p-6 flex items-center gap-3">
                 <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
                 <span className="text-sm md:text-base">
-                  {comparison.ours}
+                  {t(comparison.oursKey)}
                 </span>
               </div>
             </div>

@@ -10,14 +10,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { openCalendlyPopup } from '../utils/calendly';
 import { TrustBadges } from './TrustBadges';
 import { UrgencyBanner } from './UrgencyBanner';
+import { useLanguage } from '../contexts/LanguageContext';
 
 
 interface PricingTier {
   id: string;
-  name: string;
+  nameKey: string;
   price: number;
-  description: string;
-  features: string[];
+  descKey: string;
+  featureKeys: string[];
   highlighted?: boolean;
 }
 
@@ -28,6 +29,7 @@ interface PricingSectionProps {
 export function PricingSection({ onAddToCart }: PricingSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -58,51 +60,51 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
   const pricingTiers: PricingTier[] = [
     {
       id: 'minimal',
-      name: 'Minimal',
+      nameKey: 'pricing.minimal',
       price: 165,
-      description: 'Fine, short hair - Under shoulder length',
-      features: [
-        'Complete kit',
-        'Application guide',
-        'Video support',
-        'Lasts 3-6 months'
+      descKey: 'pricing.minimalDesc',
+      featureKeys: [
+        'pricing.feature.completeKit',
+        'pricing.feature.applicationGuide',
+        'pricing.feature.videoSupport',
+        'pricing.feature.lasts'
       ]
     },
     {
       id: 'moderate',
-      name: 'Moderate',
+      nameKey: 'pricing.moderate',
       price: 235,
-      description: 'Medium thickness - Shoulder-length hair',
-      features: [
-        'Complete kit',
-        'Application guide',
-        'Video support',
-        'Lasts 3-6 months'
+      descKey: 'pricing.moderateDesc',
+      featureKeys: [
+        'pricing.feature.completeKit',
+        'pricing.feature.applicationGuide',
+        'pricing.feature.videoSupport',
+        'pricing.feature.lasts'
       ],
       highlighted: true
     },
     {
       id: 'full',
-      name: 'Full',
+      nameKey: 'pricing.full',
       price: 295,
-      description: 'Thick, long hair - Below shoulder/above chest',
-      features: [
-        'Complete kit',
-        'Application guide',
-        'Video support',
-        'Lasts 3-6 months'
+      descKey: 'pricing.fullDesc',
+      featureKeys: [
+        'pricing.feature.completeKit',
+        'pricing.feature.applicationGuide',
+        'pricing.feature.videoSupport',
+        'pricing.feature.lasts'
       ]
     },
     {
       id: 'maximum',
-      name: 'Maximum',
+      nameKey: 'pricing.maximum',
       price: 375,
-      description: 'Very thick hair - Below chest length',
-      features: [
-        'Complete kit',
-        'Application guide',
-        'Video support',
-        'Lasts 3-6 months'
+      descKey: 'pricing.maximumDesc',
+      featureKeys: [
+        'pricing.feature.completeKit',
+        'pricing.feature.applicationGuide',
+        'pricing.feature.videoSupport',
+        'pricing.feature.lasts'
       ]
     }
   ];
@@ -110,30 +112,30 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
   const addons = [
     {
       id: 'bundle',
-      name: 'Hair Mask + Serum Bundle',
+      nameKey: 'pricing.bundle',
       price: 50,
-      description: 'Bundle both for optimal aftercare'
+      descKey: 'pricing.bundleDesc'
     },
     {
       id: 'mask',
-      name: 'Hair Mask Only',
+      nameKey: 'pricing.maskOnly',
       price: 30,
-      description: 'Deep conditioning treatment'
+      descKey: 'pricing.maskOnlyDesc'
     },
     {
       id: 'serum',
-      name: 'Hair Serum Only',
+      nameKey: 'pricing.serumOnly',
       price: 30,
-      description: 'Daily shine and protection'
+      descKey: 'pricing.serumOnlyDesc'
     }
   ];
 
   const handleAddProduct = (item: PricingTier | typeof addons[0]) => {
     const product: Product = {
       id: item.id,
-      name: item.name,
+      name: t(item.nameKey),
       price: item.price,
-      description: item.description,
+      description: t(item.descKey),
       stock: 10,
       inStock: true,
       imageUrl: "https://images.unsplash.com/photo-1739949154765-f2a23bdfa3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwaGFpciUyMGNhcmUlMjBwcm9kdWN0c3xlbnwxfHx8fDE3NjA4MDExMjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -152,9 +154,9 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="mb-4">Choose Your Treatment Size</h2>
+          <h2 className="mb-4">{t('pricing.title')}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-4">
-            Price based on hair length and thickness
+            {t('pricing.subtitle')}
           </p>
           <UrgencyBanner variant="stock" className="justify-center mb-4" />
           <TrustBadges showPayment={false} className="mb-2" />
@@ -179,22 +181,22 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
                 <div className="min-h-[32px] mb-4">
                   {tier.highlighted && (
                     <Badge className="bg-gradient-to-r from-primary to-accent text-white">
-                      MOST POPULAR
+                      {t('pricing.mostPopular')}
                     </Badge>
                   )}
                 </div>
-                <h3 className="mb-2">{tier.name}</h3>
+                <h3 className="mb-2">{t(tier.nameKey)}</h3>
                 <div className="mb-4">
                   <span className="text-4xl">€{tier.price}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-6 min-h-[80px]">
-                  {tier.description}
+                  {t(tier.descKey)}
                 </p>
                 <ul className="space-y-3 mb-6 flex-grow">
-                  {tier.features.map((feature, i) => (
+                  {tier.featureKeys.map((featureKey, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span>{feature}</span>
+                      <span>{t(featureKey)}</span>
                     </li>
                   ))}
                 </ul>
@@ -206,7 +208,7 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
                       : ''
                   }`}
                 >
-                  Add to Cart
+                  {t('pricing.addToCart')}
                 </Button>
               </Card>
             </motion.div>
@@ -221,23 +223,23 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h3 className="text-center mb-8">Add-On Products</h3>
+          <h3 className="text-center mb-8">{t('pricing.addons')}</h3>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {addons.map((addon) => (
               <Card key={addon.id} className="p-6 bg-gradient-to-br from-accent/10 to-background hover:shadow-lg transition-shadow">
                 <div className="mb-4">
                   <span className="text-2xl">€{addon.price}</span>
                 </div>
-                <h4 className="mb-2">{addon.name}</h4>
+                <h4 className="mb-2">{t(addon.nameKey)}</h4>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {addon.description}
+                  {t(addon.descKey)}
                 </p>
                 <Button 
                   variant="outline" 
                   className="w-full"
                   onClick={() => handleAddProduct(addon)}
                 >
-                  Add to Cart
+                  {t('pricing.addToCart')}
                 </Button>
               </Card>
             ))}
@@ -258,16 +260,16 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
                 <Phone className="h-8 w-8 text-primary" />
               </div>
             </div>
-            <h3 className="mb-4">Not Sure Which Size?</h3>
+            <h3 className="mb-4">{t('pricing.notSure')}</h3>
             <p className="text-muted-foreground mb-6">
-              Book a 10-minute video consultation for €10. We'll assess your hair and recommend the perfect amount. If you purchase during the call, the €10 is credited toward your order. Otherwise, the consultation fee is non-refundable.
+              {t('pricing.consultationText')}
             </p>
             <Button 
               variant="outline" 
               size="lg"
               onClick={() => openCalendlyPopup('quickConsultation')}
             >
-              Book Consultation (€10)
+              {t('pricing.bookConsultation')}
             </Button>
           </div>
 
@@ -277,9 +279,9 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Phone className="h-6 w-6 text-primary" />
               </div>
-              <h4 className="font-semibold mb-2">30-Minute Session</h4>
+              <h4 className="font-semibold mb-2">{t('pricing.sessionTitle')}</h4>
               <p className="text-sm text-muted-foreground">
-                Personal video call with our hair expert
+                {t('pricing.sessionDesc')}
               </p>
             </Card>
 
@@ -287,9 +289,9 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Check className="h-6 w-6 text-primary" />
               </div>
-              <h4 className="font-semibold mb-2">Personalized Plan</h4>
+              <h4 className="font-semibold mb-2">{t('pricing.planTitle')}</h4>
               <p className="text-sm text-muted-foreground">
-                Custom treatment recommendations for your hair
+                {t('pricing.planDesc')}
               </p>
             </Card>
 
@@ -297,9 +299,9 @@ export function PricingSection({ onAddToCart }: PricingSectionProps) {
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Euro className="h-6 w-6 text-primary" />
               </div>
-              <h4 className="font-semibold mb-2">Credit Toward Purchase</h4>
+              <h4 className="font-semibold mb-2">{t('pricing.creditTitle')}</h4>
               <p className="text-sm text-muted-foreground">
-                €10 consultation fee applied to your order
+                {t('pricing.creditDesc')}
               </p>
             </Card>
           </div>

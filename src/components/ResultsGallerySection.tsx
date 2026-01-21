@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BeforeAfterGallery } from './ui/before-after-gallery';
+import { useLanguage } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -158,6 +159,7 @@ const galleryItems = [
 export function ResultsGallerySection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -188,11 +190,10 @@ export function ResultsGallerySection() {
       <div className="container max-w-6xl mx-auto px-4">
         <div ref={titleRef} className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Before & After Transformations
+            {t('results.title')}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            See the incredible results our clients have achieved with our organic keratin treatments. 
-            Natural curls enhanced, not changed.
+            {t('results.subtitle')}
           </p>
         </div>
 

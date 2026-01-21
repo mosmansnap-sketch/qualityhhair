@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Sparkles, ArrowRight, ShoppingCart } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface FinalCTASectionProps {
   onGetStarted: () => void;
@@ -8,6 +9,8 @@ interface FinalCTASectionProps {
 }
 
 export function FinalCTASection({ onGetStarted, onViewPricing }: FinalCTASectionProps) {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -25,13 +28,13 @@ export function FinalCTASection({ onGetStarted, onViewPricing }: FinalCTASection
           className="text-center"
         >
           <h2 className="mb-6">
-            Ready to Transform Your Hair?
+            {t('final.title')}
           </h2>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands who've discovered their perfect organic hair care routine.
+            {t('final.subtitle')}
             <br />
-            <span className="text-primary">Limited monthly supply available.</span>
+            <span className="text-primary">{t('final.limitedSupply')}</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -47,7 +50,7 @@ export function FinalCTASection({ onGetStarted, onViewPricing }: FinalCTASection
                 <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 <span className="relative flex items-center gap-3">
                   <Sparkles className="h-6 w-6" />
-                  Get Personalized Recommendation
+                  {t('final.getRecommendation')}
                   <ArrowRight className="h-6 w-6" />
                 </span>
               </Button>
@@ -65,7 +68,7 @@ export function FinalCTASection({ onGetStarted, onViewPricing }: FinalCTASection
                   className="px-8 py-8 text-lg hover:bg-accent/50"
                 >
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  View All Pricing
+                  {t('final.viewAllPricing')}
                 </Button>
               </motion.div>
             )}

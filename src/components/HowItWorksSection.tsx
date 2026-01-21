@@ -2,9 +2,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Droplets, Sparkles, Clock } from "lucide-react";
 import { openCalendlyPopup } from "../utils/calendly";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function HowItWorksSection() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   const handleStepClick = (stepNumber: number) => {
     setActiveStep(activeStep === stepNumber ? null : stepNumber);
@@ -22,13 +24,13 @@ export function HowItWorksSection() {
           className="text-center mb-12"
         >
           <h2 className="mb-4">
-            Three Simple Steps
+            {t('howItWorks.title')}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-2">
-            Easy application process - no salon required
+            {t('howItWorks.subtitle')}
           </p>
           <p className="text-sm text-muted-foreground italic">
-            Click on each step for detailed guidance (tap on mobile)
+            {t('howItWorks.clickInstruction')}
           </p>
         </motion.div>
 
@@ -62,9 +64,9 @@ export function HowItWorksSection() {
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Sparkles className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4 text-xl font-bold">Apply</h3>
+              <h3 className="mb-4 text-xl font-bold">{t('howItWorks.step1.title')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Wash with shampoo only • Dry completely • Apply section by section
+                {t('howItWorks.step1.short')}
               </p>
             </div>
 
@@ -75,89 +77,23 @@ export function HowItWorksSection() {
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">1</span>
               </div>
-              <h4 className="text-center mb-3 font-bold text-lg">Apply</h4>
+              <h4 className="text-center mb-3 font-bold text-lg">{t('howItWorks.step1.title')}</h4>
               <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
-                You are able to book 30 min video call for guiding or read the script for applying
+                {t('howItWorks.step1.intro')}
               </p>
 
               <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Have a towel ready</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>2-3 different hair combs different size & gloves</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Wash your hair only with shampoo</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Before applying your hair needs to be 100% dry and no traces of Oil. Even wait 1 more day to be sure</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Hair type 1A - 3B your hair can airdry before applying make sure you comb it out properly</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Hair type 3C-4C you are able to blowdry your hair flat if it's easier to manage it like that</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Split your hair to 10-12 layers. Left side 5-6 layers and right side same. Start from the bottom</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Brush it out first properly</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Apply a small amount of the treatment and brush it with a small comb 5-6 times til you feel it's easier to comb and the treatment is in properly</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Now you are able to apply more protein on that side again</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>And move to the next side</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Make sure you don't apply the treatment on your scalp or massage it in to your scalp or your babyhair yet. But try go as near as you can</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Your time starts from when you have applied the whole treatment on your hair</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Hair type 1A - 3A - can have it in for 60-80 minutes</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Hair type 3B-4A - can have it in for 2 hours</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>4B-4C can have it in for 2 hours and 30 min</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>When you got 20 min left before washing your hair - you are able to tap your scalp so it reach the scalp and apply it on your babyhair</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>If it feels itchy don't scratch. It will disappear. (Reason of the itchy is dry skin)</span>
-                </div>
+                {['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18'].map((key) => (
+                  <div key={key} className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{t(`howItWorks.step1.${key}`)}</span>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-4 pt-4 border-t border-border/50 text-center">
                 <p className="text-xs text-muted-foreground">
-                  Need help applying?{' '}
+                  {t('howItWorks.step1.helpText')}{' '}
                   <button 
                     className="text-primary hover:underline font-medium"
                     onClick={(e) => {
@@ -165,7 +101,7 @@ export function HowItWorksSection() {
                       openCalendlyPopup('videoGuidance');
                     }}
                   >
-                    Book a video guidance call
+                    {t('howItWorks.step1.bookCall')}
                   </button>
                 </p>
               </div>
@@ -200,9 +136,9 @@ export function HowItWorksSection() {
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Droplets className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4 text-xl font-bold">Rinse</h3>
+              <h3 className="mb-4 text-xl font-bold">{t('howItWorks.step2.title')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Pure water only • No shampoo or conditioner • Let air dry naturally
+                {t('howItWorks.step2.short')}
               </p>
             </div>
 
@@ -213,28 +149,18 @@ export function HowItWorksSection() {
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">2</span>
               </div>
-              <h4 className="text-center mb-3 font-bold text-lg">Rinse</h4>
+              <h4 className="text-center mb-3 font-bold text-lg">{t('howItWorks.step2.title')}</h4>
               <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
-                Rinse it only with water take a full bath. Make sure it's 100% out of the hair
+                {t('howItWorks.step2.intro')}
               </p>
 
               <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Rinse it only with water take a full bath. Make sure it's 100% out of the hair</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Hair type 1A - 3B let your hair fully AIR DRY</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>3C - 4C make one braid and let it airdry like that</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Don't use any oils or creams after. Even if your hair feels dry afterwards</span>
-                </div>
+                {['d1', 'd2', 'd3', 'd4'].map((key) => (
+                  <div key={key} className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{t(`howItWorks.step2.${key}`)}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -261,9 +187,9 @@ export function HowItWorksSection() {
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 mt-4">
                 <Clock className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="mb-4 text-xl font-bold">Maintain</h3>
+              <h3 className="mb-4 text-xl font-bold">{t('howItWorks.step3.title')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                First wash after 4-7 days (mask only) • Use sulfate-free products • Enjoy healthier hair for months
+                {t('howItWorks.step3.short')}
               </p>
             </div>
 
@@ -274,40 +200,18 @@ export function HowItWorksSection() {
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-3">
                 <span className="text-primary-foreground">3</span>
               </div>
-              <h4 className="text-center mb-3 font-bold text-lg">Maintain</h4>
+              <h4 className="text-center mb-3 font-bold text-lg">{t('howItWorks.step3.title')}</h4>
               <p className="text-sm text-primary text-center italic mb-5 px-2 font-medium">
-                After 4-7 days you are able to wash your hair again but only with a hairmask
+                {t('howItWorks.step3.intro')}
               </p>
 
               <div className="space-y-3 text-sm text-foreground/90 leading-relaxed">
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>After 4-7 days you are able to wash your hair again but only with a hairmask</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>(sulphate free is our recommendation)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>And if you got the chance to try out the one I got. Make sure it stays in your hair 1h up to 2h rinse it out</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Now you are able to use oils and also style your hair with blowdry</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>Third wash?</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>You can use shampoo and conditioner</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>I recommend sulphate free</span>
-                </div>
+                {['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'].map((key) => (
+                  <div key={key} className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{t(`howItWorks.step3.${key}`)}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -322,7 +226,7 @@ export function HowItWorksSection() {
           className="text-center"
         >
           <p className="text-sm text-muted-foreground italic">
-            *Full application guide provided with purchase
+            {t('howItWorks.footer')}
           </p>
         </motion.div>
       </div>

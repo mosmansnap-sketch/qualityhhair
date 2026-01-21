@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { cn } from './utils';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface GalleryItem {
   id: string;
@@ -99,12 +100,13 @@ function MediaDisplay({
 
 export function BeforeAfterGallery({
   items,
-  autoAdvance = false,
-  autoAdvanceInterval = 5000,
+  autoAdvance: _autoAdvance = false,
+  autoAdvanceInterval: _autoAdvanceInterval = 5000,
   className,
 }: BeforeAfterGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredSide, setHoveredSide] = useState<'before' | 'after' | null>(null);
+  const { t } = useLanguage();
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
@@ -131,7 +133,7 @@ export function BeforeAfterGallery({
             <MediaDisplay
               image={currentItem.beforeImage}
               video={currentItem.beforeVideo}
-              alt={`Before - ${currentItem.clientName}`}
+              alt={`${t('results.before')} - ${currentItem.clientName}`}
               isActive={true}
               isHovered={hoveredSide === 'before'}
               itemId={`before-${currentItem.id}`}
@@ -144,7 +146,7 @@ export function BeforeAfterGallery({
               transition={{ delay: 0.2 }}
             >
               <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-medium">
-                Before
+                {t('results.before')}
                 {hasBeforeVideo && <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />}
               </span>
             </motion.div>
@@ -159,7 +161,7 @@ export function BeforeAfterGallery({
             <MediaDisplay
               image={currentItem.afterImage}
               video={currentItem.afterVideo}
-              alt={`Results - ${currentItem.clientName}`}
+              alt={`${t('results.after')} - ${currentItem.clientName}`}
               isActive={true}
               isHovered={hoveredSide === 'after'}
               itemId={`after-${currentItem.id}`}
@@ -173,7 +175,7 @@ export function BeforeAfterGallery({
               transition={{ delay: 0.3 }}
             >
               <span className="inline-flex items-center gap-2 px-3 py-1 bg-accent/80 backdrop-blur-md rounded-full text-white text-sm font-medium">
-                Results
+                {t('results.after')}
                 {hasAfterVideo && <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />}
               </span>
             </motion.div>

@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Calendar, Mail, ArrowRight, Copy, CheckCheck } from 'lucide-react';
+import { Check, Calendar, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 
 export function ConsultationSuccess() {
-  const [copied, setCopied] = useState(false);
   const sessionId = new URLSearchParams(window.location.search).get('session_id');
 
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
   }, []);
-
-  const handleCopyCode = () => {
-    // The actual code will be in the email, this is just for UX
-    navigator.clipboard.writeText('Check your email for your discount code');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-accent/5 py-16 px-4">

@@ -1,44 +1,46 @@
 import { Card } from './ui/card';
 import { motion } from 'framer-motion';
 import { Sparkles, Shield, TrendingUp, Flame, Heart, Droplets } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function BenefitsSection() {
+  const { t } = useLanguage();
 
   const benefits = [
     {
       icon: Sparkles,
-      title: 'Quality Hair',
-      description: 'Achieve healthy, radiant hair defined by its vitality and strength',
+      titleKey: 'benefits.qualityHair',
+      descKey: 'benefits.qualityHairDesc',
       gradient: 'from-[#6b5d52] to-[#8b7355]' // Primary to darker primary
     },
     {
       icon: Droplets,
-      title: 'Maintains Your Curl Pattern',
-      description: 'Keep your natural texture while enhancing definition and hydration',
+      titleKey: 'benefits.maintainsCurl',
+      descKey: 'benefits.maintainsCurlDesc',
       gradient: 'from-[#b8a68f] to-[#a89680]' // Accent to darker accent
     },
     {
       icon: Heart,
-      title: 'Manageability',
-      description: 'Easy detangling, smooth styling, and effortless daily care',
+      titleKey: 'benefits.manageability',
+      descKey: 'benefits.manageabilityDesc',
       gradient: 'from-[#d4c5b0] to-[#c4b5a0]' // Secondary to darker secondary
     },
     {
       icon: Shield,
-      title: 'Less Hair Fall & Breakage',
-      description: 'Strengthen from within to reduce shedding and protect against damage',
+      titleKey: 'benefits.lessBreakage',
+      descKey: 'benefits.lessBreakageDesc',
       gradient: 'from-[#8b7355] to-[#7a6d5f]' // Darker primary to muted
     },
     {
       icon: TrendingUp,
-      title: 'Growth Support',
-      description: 'Create the perfect foundation for healthy, sustained hair growth',
+      titleKey: 'benefits.growthSupport',
+      descKey: 'benefits.growthSupportDesc',
       gradient: 'from-[#a89680] to-[#968670]' // Accent variant to darker
     },
     {
       icon: Flame,
-      title: 'Heat-Free Treatment',
-      description: 'No heat, no flat irons, no damage — just natural balance',
+      titleKey: 'benefits.heatFree',
+      descKey: 'benefits.heatFreeDesc',
       gradient: 'from-[#c55a4a] to-[#b54a3a]' // Destructive to darker destructive
     }
   ];
@@ -58,10 +60,10 @@ export function BenefitsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Why Choose Quality Hair
+            {t('benefits.title')}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Experience the transformation your hair deserves
+            {t('benefits.subtitle')}
           </p>
         </motion.div>
 
@@ -87,9 +89,9 @@ export function BenefitsSection() {
                     <Icon className="h-8 w-8 text-white" />
                   </div>
                 </div>
-                <h3 className="mb-3 text-white font-semibold text-xl">{benefit.title}</h3>
+                <h3 className="mb-3 text-white font-semibold text-xl">{t(benefit.titleKey)}</h3>
                 <p className="text-white/90 text-sm leading-relaxed">
-                  {benefit.description}
+                  {t(benefit.descKey)}
                 </p>
               </Card>
             </motion.div>
